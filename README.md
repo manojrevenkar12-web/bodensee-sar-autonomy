@@ -32,15 +32,36 @@ search time. Confidence intervals are stratified bootstrap (2000 resamples).
 
 ### Development scenarios (12 incidents x 40 seeds)
 
-RESULTS_DEV
+| Planner | Found in time | 95% CI | by 10 / 20 min | Mean minutes to find | Its own forecast | Rule violations |
+|---|---|---|---|---|---|---|
+| Greedy | **57.1%** | 53.1 to 61.0% | 40% / 54% | 17.7 | 72.0% | 0 |
+| IAMSAR pattern | **46.2%** | 42.1 to 50.4% | 27% / 40% | 21.0 | 56.5% | 0 |
+| Lookahead (4 moves) | **59.6%** | 55.6 to 63.5% | 41% / 57% | 17.1 | 72.5% | 0 |
+| Random moves (floor) | **5.4%** | 3.5 to 7.5% | 2% / 4% | 29.1 | 5.9% | 0 |
+| Learned policy | **43.3%** | 39.4 to 47.3% | 27% / 41% | 20.8 | 67.9% | 0 |
+
+Learned policy minus each planner, paired on the same scenarios and seeds: Greedy -13.8 points (95% CI -18.1 to -9.6); IAMSAR pattern -2.9 points (95% CI -8.3 to +2.1); Lookahead (4 moves) -16.2 points (95% CI -20.4 to -11.9).
 
 ### Blind held-out set (20 incidents x 40 seeds, first and only run)
 
-RESULTS_BLIND
+| Planner | Found in time | 95% CI | by 10 / 20 min | Mean minutes to find | Its own forecast | Rule violations |
+|---|---|---|---|---|---|---|
+| Greedy | **31.0%** | 28.5 to 33.6% | 21% / 30% | 25.9 | 40.3% | 0 |
+| IAMSAR pattern | **14.2%** | 12.2 to 16.4% | 8% / 13% | 29.7 | 20.2% | 0 |
+| Lookahead (4 moves) | **31.5%** | 29.0 to 34.1% | 23% / 30% | 25.9 | 40.8% | 0 |
+| Random moves (floor) | **2.9%** | 1.9 to 4.0% | 1% / 2% | 32.0 | 3.1% | 0 |
+| Learned policy | **20.6%** | 18.5 to 22.9% | 14% / 19% | 28.5 | 35.1% | 0 |
+
+Learned policy minus each planner, paired on the same scenarios and seeds: Greedy -10.4 points (95% CI -13.1 to -7.8); IAMSAR pattern +6.4 points (95% CI +3.5 to +9.2); Lookahead (4 moves) -10.9 points (95% CI -13.5 to -8.1).
+
+Written by a separate agent from `heldout/WRITING_SCENARIOS.md` only, run once on commit `b76dfc1` (2026-10-28T23:18:04Z), pinned by sha256 in `tests/test_heldout.py`. Its failures have not been studied. It is harder than the dev set on purpose: storms and wrong forecasts, delays up to 150 minutes, 10-minute batteries, a single drone, a base far from the incident; in three scenarios no planner found anyone.
 
 ### What the numbers say
 
-RESULTS_TEXT
+- **Planning on the drift forecast beats the textbook pattern.** On the blind set the lookahead found the object in 31.5% of searches against 14.2% for the IAMSAR sweep (2.2 times as often), and on the dev set 59.6% against 46.2%.
+- **The learned policy is not the best planner, and the evaluation says so.** PPO from scratch reached 0.50 expected success on validation (the lookahead 0.68) and then became unstable; starting from an imitation of the lookahead gave 0.63, and 150 iterations of PPO fine-tuning did not improve on it, twice (with and without a reachable-probability channel). The selected network beats the IAMSAR pattern on the blind set (+6.4 points) but trails the lookahead (-10.9 points). On this compute budget the lookahead is what a coordinator should send; `reports/training/` keeps every run.
+- **Forecasts run high.** Every planner's own estimate of success is above what the truth delivers (lookahead on the blind set: 40.8% expected, 31.5% found), because the real world's wind and leeway errors are wider than the forecast assumes. The console says so next to the numbers.
+- **Zero rule violations** in 6400 evaluated searches: no flight into a no-fly zone, no landing below the battery reserve, under every planner including random moves.
 
 ## Run it
 
