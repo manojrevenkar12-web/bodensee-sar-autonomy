@@ -1,0 +1,40 @@
+# Fan the evaluation out over the Ray cluster: one Ray task per scenario and seed.
+apiVersion: ray.io/v1
+kind: RayJob
+metadata:
+  name: sar-evaluate
+  namespace: sar
+spec:
+  entrypoint: python -m sar.cli evaluate --set scenarios/dev --planners iamsar,greedy,lookahead --seeds 4 --backend ray --name k8s
+  shutdownAfterJobFinishes: true
+  ttlSecondsAfterFinished: 600
+  activeDeadlineSeconds: 1800
+  backoffLimit: 0
+  rayClusterSpec:
+    rayVersion: "2.59.0"
+    headGroupSpec:
+      rayStartParams: {num-cpus: "1"}
+      template:
+        spec:
+          securityContext: {runAsNonRoot: true, runAsUser: 10001}
+          containers:
+            - name: ray-head
+              image: bodensee-sar-train:ci
+              imagePullPolicy: IfNotPresent
+              env: [{name: RAY_AUTH_MODE, value: disabled}]
+              resources: {requests: {cpu: "500m", memory: 1500Mi}, limits: {cpu: "1", memory: 2Gi}}
+    workerGroupSpecs:
+      - groupName: evaluators
+        replicas: 1
+        minReplicas: 1
+        maxReplicas: 8
+        rayStartParams: {num-cpus: "1"}
+        template:
+          spec:
+            securityContext: {runAsNonRoot: true, runAsUser: 10001}
+            containers:
+              - name: ray-worker
+                image: bodensee-sar-train:ci
+                imagePullPolicy: IfNotPresent
+                env: [{name: RAY_AUTH_MODE, value: disabled}]
+                resources: {requests: {cpu: "500m", memory: 1Gi}, limits: {cpu: "1", memory: 1500Mi}}

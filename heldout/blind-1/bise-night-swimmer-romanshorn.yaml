@@ -1,0 +1,16 @@
+id: bise-night-swimmer-romanshorn
+description: Swimmer reported missing at night off Romanshorn harbour with a moderate Bise blowing from the north-east.
+incident:
+  last_known: {lat: 47.5695, lon: 9.4010}
+  position_error_m: 400
+  minutes_since: 45
+  reported_objects: {piw: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 8.0
+  wind_from_deg: 45
+uavs:
+  count: 3
+  endurance_min: 30
+  base: romanshorn
+search_minutes: 30

@@ -1,0 +1,16 @@
+id: short-battery-konstanz-bise
+description: Person seen falling from a paddle board or swimming off Konstanz in a light Bise; the only drones on hand have worn batteries good for ten minutes.
+incident:
+  last_known: {lat: 47.6560, lon: 9.2290}
+  position_error_m: 200
+  minutes_since: 15
+  reported_objects: {piw: 0.6, sup_board: 0.4}
+  time_of_day: day
+forecast:
+  wind_speed: 4.0
+  wind_from_deg: 70
+uavs:
+  count: 2
+  endurance_min: 10
+  base: konstanz
+search_minutes: 30

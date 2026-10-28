@@ -1,0 +1,21 @@
+id: storm-short-battery-langenargen
+description: Capsized kayak west of Langenargen in a south-westerly storm; the drones' endurance is cut to twelve minutes and the storm is stronger than forecast.
+incident:
+  last_known: {lat: 47.5880, lon: 9.5010}
+  position_error_m: 500
+  minutes_since: 30
+  reported_objects: {kayak_capsized: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 16.0
+  wind_from_deg: 250
+uavs:
+  count: 4
+  endurance_min: 12
+  base: langenargen
+search_minutes: 30
+truth:
+  object: kayak_capsized
+  wind_speed: 20.0
+  wind_from_deg: 235
+  entered_water: {lat: 47.5915, lon: 9.4955}

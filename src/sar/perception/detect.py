@@ -24,10 +24,12 @@ MAX_AREA_M2 = 12.0
 CHROMA_FLOOR = 20.0  # Lab units: whitecaps and glint differ from the water by less
 
 
-def _blobs(saliency: np.ndarray, k_sigma: float, min_area_m2: float = MIN_AREA_M2, floor: float = 0.0) -> list[Detection]:
+def _blobs(
+    saliency: np.ndarray, k_sigma: float, min_area_m2: float = MIN_AREA_M2, floor: float = 0.0
+) -> list[Detection]:
     mu, sd = float(saliency.mean()), float(saliency.std()) + 1e-6
-    binary = (saliency > max(mu + k_sigma * sd, floor)).astype(np.uint8)
-    binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, np.ones((2, 2), np.uint8))
+    raw = (saliency > max(mu + k_sigma * sd, floor)).astype(np.uint8)
+    binary = cv2.morphologyEx(raw, cv2.MORPH_OPEN, np.ones((2, 2), np.uint8))
     n, _labels, stats, centroids = cv2.connectedComponentsWithStats(binary, connectivity=8)
     out = []
     px_area = GSD_M * GSD_M

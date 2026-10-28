@@ -1,0 +1,19 @@
+id: dinghy-report-sailor-separated
+description: Capsized dinghy reported at night in the Überlinger See in a westerly; the sailor has actually become separated from the boat.
+incident:
+  last_known: {lat: 47.7240, lon: 9.2010}
+  position_error_m: 300
+  minutes_since: 20
+  reported_objects: {dinghy_capsized: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 8.0
+  wind_from_deg: 270
+uavs:
+  count: 3
+  endurance_min: 30
+  base: ueberlingen
+search_minutes: 30
+truth:
+  object: piw
+  entered_water: {lat: 47.7255, lon: 9.1975}

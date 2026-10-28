@@ -11,6 +11,7 @@ endif()
 option(SAR_BUILD_PYTHON "Build the Python extension" ON)
 option(SAR_BUILD_TESTS "Build the C++ tests (Catch2)" OFF)
 option(SAR_SANITIZE "Build with AddressSanitizer and UndefinedBehaviorSanitizer" OFF)
+option(SAR_WERROR "Treat compiler warnings as errors" OFF)
 
 add_library(sarcore STATIC
   cpp/src/lake.cpp
@@ -23,6 +24,9 @@ if(MSVC)
   target_compile_options(sarcore PRIVATE /W4)
 else()
   target_compile_options(sarcore PRIVATE -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wno-sign-conversion)
+  if(SAR_WERROR)
+    target_compile_options(sarcore PRIVATE -Werror)
+  endif()
 endif()
 if(SAR_SANITIZE)
   target_compile_options(sarcore PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all)

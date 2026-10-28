@@ -1,0 +1,18 @@
+id: kayak-or-dinghy-mid-lake
+description: Witness on a ferry saw an overturned boat in the middle of the lake and could not tell whether it was a kayak or a small sailing dinghy.
+incident:
+  last_known: {lat: 47.6150, lon: 9.3960}
+  position_error_m: 600
+  minutes_since: 40
+  reported_objects: {kayak_capsized: 0.5, dinghy_capsized: 0.5}
+  time_of_day: day
+forecast:
+  wind_speed: 7.0
+  wind_from_deg: 230
+uavs:
+  count: 3
+  endurance_min: 30
+  base: meersburg
+search_minutes: 30
+truth:
+  object: dinghy_capsized

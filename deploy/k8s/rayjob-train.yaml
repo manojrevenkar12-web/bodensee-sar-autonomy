@@ -1,0 +1,65 @@
+# Train the policy on a Ray cluster that KubeRay creates for this job and removes afterwards.
+# CI runs it with `--smoke`; a real run sets ENTRYPOINT_ARGS to "" and gives workers more CPUs.
+apiVersion: ray.io/v1
+kind: RayJob
+metadata:
+  name: sar-train
+  namespace: sar
+spec:
+  entrypoint: python -m sar.cli train --smoke --out /tmp/models
+  shutdownAfterJobFinishes: true
+  ttlSecondsAfterFinished: 600
+  activeDeadlineSeconds: 1800
+  backoffLimit: 0
+  submissionMode: K8sJobMode
+  rayClusterSpec:
+    rayVersion: "2.59.0"
+    headGroupSpec:
+      rayStartParams:
+        num-cpus: "1"
+      template:
+        spec:
+          securityContext: {runAsNonRoot: true, runAsUser: 10001}
+          containers:
+            - name: ray-head
+              image: bodensee-sar-train:ci
+              imagePullPolicy: IfNotPresent
+              env:
+                - {name: RAY_AUTH_MODE, value: disabled}
+                - {name: MLFLOW_TRACKING_URI, value: "sqlite:////tmp/mlflow.db"}
+              resources:
+                requests: {cpu: "500m", memory: 2Gi}
+                limits: {cpu: "1", memory: 3Gi}
+              ports:
+                - {containerPort: 6379, name: gcs}
+                - {containerPort: 8265, name: dashboard}
+                - {containerPort: 10001, name: client}
+    workerGroupSpecs:
+      - groupName: rollouts
+        replicas: 1
+        minReplicas: 1
+        maxReplicas: 4
+        rayStartParams:
+          num-cpus: "1"
+        template:
+          spec:
+            securityContext: {runAsNonRoot: true, runAsUser: 10001}
+            containers:
+              - name: ray-worker
+                image: bodensee-sar-train:ci
+                imagePullPolicy: IfNotPresent
+                env:
+                  - {name: RAY_AUTH_MODE, value: disabled}
+                resources:
+                  requests: {cpu: "500m", memory: 1500Mi}
+                  limits: {cpu: "1", memory: 2Gi}
+  submitterPodTemplate:
+    spec:
+      restartPolicy: Never
+      securityContext: {runAsNonRoot: true, runAsUser: 10001}
+      containers:
+        - name: submitter
+          image: bodensee-sar-train:ci
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: RAY_AUTH_MODE, value: disabled}

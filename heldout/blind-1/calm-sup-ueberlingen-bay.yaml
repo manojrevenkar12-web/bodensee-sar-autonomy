@@ -1,0 +1,16 @@
+id: calm-sup-ueberlingen-bay
+description: Paddle boarder overdue in near-calm conditions in the Überlinger See, last seen by a friend on shore twenty minutes ago.
+incident:
+  last_known: {lat: 47.7470, lon: 9.1680}
+  position_error_m: 150
+  minutes_since: 20
+  reported_objects: {sup_board: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 1.0
+  wind_from_deg: 200
+uavs:
+  count: 2
+  endurance_min: 40
+  base: ueberlingen
+search_minutes: 30

@@ -1,0 +1,16 @@
+id: single-drone-late-report-lindau
+description: Swimmer reported missing west of Lindau two and a half hours after last being seen, at night, with only one drone available.
+incident:
+  last_known: {lat: 47.5430, lon: 9.6010}
+  position_error_m: 1500
+  minutes_since: 150
+  reported_objects: {piw: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 3.0
+  wind_from_deg: 300
+uavs:
+  count: 1
+  endurance_min: 45
+  base: lindau
+search_minutes: 30

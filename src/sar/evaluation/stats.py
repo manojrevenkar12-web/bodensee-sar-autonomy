@@ -17,7 +17,9 @@ def strata(keys: Sequence[str]) -> dict[str, np.ndarray]:
     return {k: np.array(v) for k, v in groups.items()}
 
 
-def bootstrap_mean(values: np.ndarray, keys: Sequence[str], resamples: int, seed: int, confidence: float) -> tuple[float, float, float]:
+def bootstrap_mean(
+    values: np.ndarray, keys: Sequence[str], resamples: int, seed: int, confidence: float
+) -> tuple[float, float, float]:
     """Mean over scenarios of the per-scenario mean, with a stratified percentile interval."""
     values = np.asarray(values, dtype=float)
     groups = strata(keys)

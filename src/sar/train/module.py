@@ -35,6 +35,10 @@ class MaskedPolicyModule(TorchRLModule, ValueFunctionAPI):
         n_actions = int(self.action_space.n)  # type: ignore[union-attr]
         self.pi = mlp(n_obs, hidden, n_actions)
         self.vf = mlp(n_obs, hidden, 1)
+        init = self.model_config.get("init")  # type: ignore[union-attr]
+        if init:  # weights from imitation pre-training, shipped inside the config to every worker
+            self.pi.load_state_dict({k: torch.as_tensor(v) for k, v in init["pi"].items()})
+            self.vf.load_state_dict({k: torch.as_tensor(v) for k, v in init["vf"].items()})
 
     def _logits(self, batch: dict[str, Any]) -> torch.Tensor:
         obs = batch[Columns.OBS]

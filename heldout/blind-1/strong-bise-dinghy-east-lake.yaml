@@ -1,0 +1,16 @@
+id: strong-bise-dinghy-east-lake
+description: Sailing dinghy capsized south-east of Lindau in a strong Bise; the sailor may be with the boat.
+incident:
+  last_known: {lat: 47.5245, lon: 9.6950}
+  position_error_m: 500
+  minutes_since: 35
+  reported_objects: {dinghy_capsized: 0.7, piw: 0.3}
+  time_of_day: day
+forecast:
+  wind_speed: 12.0
+  wind_from_deg: 40
+uavs:
+  count: 3
+  endurance_min: 30
+  base: lindau
+search_minutes: 30

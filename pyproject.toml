@@ -34,13 +34,14 @@ cmake.define = { SAR_BUILD_PYTHON = "ON", SAR_BUILD_TESTS = "OFF" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["slow: trains or evaluates at scale", "ray: starts a Ray cluster"]
+markers = ["slow: trains or evaluates at scale", "ray: starts a Ray cluster", "e2e: drives the console in a browser"]
 addopts = "-p no:cacheprovider"
 filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.ruff]
 line-length = 120
 target-version = "py312"
+extend-exclude = ["src/sar/_sarsim"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF", "NPY"]
@@ -50,4 +51,4 @@ ignore = ["RUF001", "RUF002", "RUF003", "E501", "B905", "RUF012", "SIM108"]
 python_version = "3.12"
 ignore_missing_imports = true
 files = ["src/sar"]
-exclude = ["src/sar/_sarsim"]
+plugins = ["pydantic.mypy"]

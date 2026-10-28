@@ -39,14 +39,14 @@ class SarMultiAgentEnv(MultiAgentEnv):
         self.cfg = env_config(**config.get("env", {}))
         self.reward_scale = float(config.get("reward_scale", 10.0))
         self.sim = core.Env(lake(), self.cfg)
-        self.possible_agents = [agent_id(k) for k in range(self.cfg.max_agents)]
+        self.possible_agents: list[Any] = [agent_id(k) for k in range(self.cfg.max_agents)]
         obs_space, act_space = spaces(self.cfg)
         self.observation_spaces = dict.fromkeys(self.possible_agents, obs_space)
         self.action_spaces = dict.fromkeys(self.possible_agents, act_space)
         worker = int(getattr(ctx, "worker_index", 0) or 0)
         vector = int(getattr(ctx, "vector_index", 0) or 0)
         self.rng = np.random.default_rng([int(config.get("seed", 0)), worker, vector])
-        self.agents: list[str] = []
+        self.agents: list[Any] = []
 
     def _obs(self, which: list[int]) -> dict[str, dict[str, np.ndarray]]:
         obs, mask, _active = self.sim.observe()
@@ -67,7 +67,7 @@ class SarMultiAgentEnv(MultiAgentEnv):
         self.agents = [agent_id(k) for k in active]
         return self._obs(active), {}
 
-    def step(self, action_dict: dict[str, int]) -> tuple[dict, dict, dict, dict, dict]:
+    def step(self, action_dict: dict[Any, Any]) -> tuple[dict, dict, dict, dict, dict]:  # type: ignore[override]
         acting = [int(a.split("_")[1]) for a in self.agents]
         actions = [int(action_dict.get(agent_id(k), 0)) for k in range(self.sim.n_agents)]
         info = self.sim.step(actions)

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sar-api
+  namespace: sar
+  labels: {app: sar-api}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: sar-api}}
+  template:
+    metadata: {labels: {app: sar-api}}
+    spec:
+      securityContext: {runAsNonRoot: true, runAsUser: 10001, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: api
+          image: bodensee-sar-api:ci
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8000, name: http}]
+          env:
+            - {name: DATABASE_URL, value: "sqlite:////data/sar.db"}  # use PostgreSQL in production
+            - {name: SAR_DEMO_VEHICLES, value: "1"}                  # or SAR_VEHICLES=host:port,... for real autopilots
+          readinessProbe: {httpGet: {path: /api/health, port: http}, periodSeconds: 5}
+          livenessProbe: {httpGet: {path: /api/health, port: http}, periodSeconds: 20}
+          resources: {requests: {cpu: 250m, memory: 384Mi}, limits: {cpu: "1", memory: 768Mi}}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          volumeMounts: [{name: data, mountPath: /data}, {name: tmp, mountPath: /tmp}]
+      volumes: [{name: data, emptyDir: {}}, {name: tmp, emptyDir: {}}]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sar-api
+  namespace: sar
+spec:
+  selector: {app: sar-api}
+  ports: [{port: 80, targetPort: http, name: http}]

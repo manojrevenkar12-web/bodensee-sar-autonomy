@@ -1,0 +1,30 @@
+# The coordinator API with the built console and the ONNX policy. No Ray or PyTorch at run time.
+FROM node:24-bookworm-slim AS console
+WORKDIR /console
+COPY console/package.json console/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY console/ ./
+RUN npm run build
+
+FROM python:3.12-slim-bookworm AS wheel
+RUN apt-get update && apt-get install -y --no-install-recommends g++ cmake ninja-build && rm -rf /var/lib/apt/lists/*
+WORKDIR /src
+COPY pyproject.toml CMakeLists.txt README.md ./
+COPY cpp ./cpp
+COPY src ./src
+RUN pip wheel --no-cache-dir --no-deps -w /wheels .
+
+FROM python:3.12-slim-bookworm
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 SAR_ROOT=/app
+RUN useradd --create-home --uid 10001 sar
+WORKDIR /app
+COPY --from=wheel /wheels /wheels
+RUN pip install --no-cache-dir "$(ls /wheels/*.whl)[serve,interop]" && rm -rf /wheels
+COPY config ./config
+COPY scenarios ./scenarios
+COPY models/policy.onnx models/policy.json ./models/
+COPY --from=console /console/dist ./console/dist
+USER sar
+EXPOSE 8000
+HEALTHCHECK CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"
+CMD ["uvicorn", "sar.api.app:app", "--host", "0.0.0.0", "--port", "8000"]

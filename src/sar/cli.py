@@ -22,7 +22,7 @@ def cmd_calibrate(a: argparse.Namespace) -> None:
 def cmd_train(a: argparse.Namespace) -> None:
     from sar.train.train import train
 
-    card = train(smoke=a.smoke, iterations=a.iterations, out=Path(a.out) if a.out else None)
+    card = train(smoke=a.smoke, iterations=a.iterations, out=Path(a.out) if a.out else None, start=a.start)
     print(json.dumps(card, indent=1))
 
 
@@ -53,10 +53,18 @@ def cmd_heldout(a: argparse.Namespace) -> None:
         sys.exit(f"{first.relative_to(conf.ROOT)} exists: a held-out set runs once")
     report = evaluate(directory, workers=a.workers, backend=a.backend)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=conf.ROOT, text=True).strip()
-    dirty = subprocess.check_output(["git", "status", "--porcelain", "--", "src", "cpp", "config", "models"], cwd=conf.ROOT, text=True).strip()
+    dirty = subprocess.check_output(
+        ["git", "status", "--porcelain", "--", "src", "cpp", "config", "models"], cwd=conf.ROOT, text=True
+    ).strip()
     if dirty:
         sys.exit("commit the code, config and model before the first run, so it is tied to a commit")
-    report.update({"status": "heldout", "code_commit": commit, "recorded_at": dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")})
+    report.update(
+        {
+            "status": "heldout",
+            "code_commit": commit,
+            "recorded_at": dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+    )
     out.mkdir(parents=True, exist_ok=True)
     first.write_text(json.dumps(report, indent=1, sort_keys=True) + "\n")
     (out / "first_run.md").write_text(markdown(report))
@@ -101,6 +109,7 @@ def main(argv: list[str] | None = None) -> None:
     t.add_argument("--smoke", action="store_true")
     t.add_argument("--iterations", type=int)
     t.add_argument("--out")
+    t.add_argument("--start", choices=["scratch", "imitation"], default="scratch")
     t.set_defaults(fn=cmd_train)
     e = sub.add_parser("evaluate", help="compare planners on a scenario set")
     e.add_argument("--set", default="scenarios/dev")

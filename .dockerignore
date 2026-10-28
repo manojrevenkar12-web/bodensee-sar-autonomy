@@ -1,0 +1,13 @@
+.venv
+build
+**/__pycache__
+console/node_modules
+console/dist
+mlflow.db
+mlruns
+sar.db
+.git
+reports
+heldout
+tests
+docs/screenshots

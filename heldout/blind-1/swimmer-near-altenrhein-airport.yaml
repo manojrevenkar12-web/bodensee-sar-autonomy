@@ -1,0 +1,19 @@
+id: swimmer-near-altenrhein-airport
+description: Swimmer missing off the Rhine delta just north of the Altenrhein airport zone, reported by a passing boat.
+incident:
+  last_known: {lat: 47.5030, lon: 9.5300}
+  position_error_m: 250
+  minutes_since: 25
+  reported_objects: {piw: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 5.0
+  wind_from_deg: 240
+uavs:
+  count: 3
+  endurance_min: 30
+  base: arbon
+search_minutes: 30
+truth:
+  object: piw
+  entered_water: {lat: 47.5040, lon: 9.5290}

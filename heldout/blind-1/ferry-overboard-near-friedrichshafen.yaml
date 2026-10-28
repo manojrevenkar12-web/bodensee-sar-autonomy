@@ -1,0 +1,19 @@
+id: ferry-overboard-near-friedrichshafen
+description: Passenger missed after a night crossing on the Romanshorn–Friedrichshafen ferry, position along the route very uncertain, search area reaching toward the airport control zone.
+incident:
+  last_known: {lat: 47.6370, lon: 9.4680}
+  position_error_m: 3000
+  minutes_since: 70
+  reported_objects: {piw: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 5.0
+  wind_from_deg: 240
+uavs:
+  count: 4
+  endurance_min: 45
+  base: immenstaad
+search_minutes: 45
+truth:
+  object: piw
+  entered_water: {lat: 47.6320, lon: 9.4600}

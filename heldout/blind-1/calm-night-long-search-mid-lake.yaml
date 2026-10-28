@@ -1,0 +1,16 @@
+id: calm-night-long-search-mid-lake
+description: Night swimmer missed mid-lake between Romanshorn and Langenargen two hours ago in a dead calm, with a long search planned.
+incident:
+  last_known: {lat: 47.5700, lon: 9.4620}
+  position_error_m: 2000
+  minutes_since: 120
+  reported_objects: {piw: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 0.5
+  wind_from_deg: 0
+uavs:
+  count: 2
+  endurance_min: 60
+  base: romanshorn
+search_minutes: 60

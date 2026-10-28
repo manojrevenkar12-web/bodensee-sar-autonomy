@@ -1,0 +1,19 @@
+id: regatta-dinghy-langenargen
+description: Sailing dinghy capsized during a regatta off Langenargen in a fresh south-westerly; crew not seen since.
+incident:
+  last_known: {lat: 47.5920, lon: 9.4690}
+  position_error_m: 300
+  minutes_since: 30
+  reported_objects: {dinghy_capsized: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 9.0
+  wind_from_deg: 225
+uavs:
+  count: 3
+  endurance_min: 35
+  base: langenargen
+search_minutes: 30
+truth:
+  object: dinghy_capsized
+  entered_water: {lat: 47.5895, lon: 9.4660}

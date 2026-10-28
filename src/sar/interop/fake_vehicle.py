@@ -15,7 +15,9 @@ from pymavlink.dialects.v20 import common as mavlink2
 
 
 class FakeVehicle:
-    def __init__(self, port: int = 0, drop_rate: float = 0.0, speed_mps: float = 200.0, seed: int = 0, sysid: int = 1) -> None:
+    def __init__(
+        self, port: int = 0, drop_rate: float = 0.0, speed_mps: float = 200.0, seed: int = 0, sysid: int = 1
+    ) -> None:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(("127.0.0.1", port))
         self.sock.settimeout(0.05)
@@ -61,7 +63,9 @@ class FakeVehicle:
             if msg.seq == len(self.items):
                 self.items.append(msg)
             if len(self.items) < self.expected:
-                self._send(self.mav.mission_request_int_encode(msg.get_srcSystem(), msg.get_srcComponent(), len(self.items)))
+                self._send(
+                    self.mav.mission_request_int_encode(msg.get_srcSystem(), msg.get_srcComponent(), len(self.items))
+                )
             else:
                 self.accepted = True
                 self._send(self.mav.mission_ack_encode(msg.get_srcSystem(), msg.get_srcComponent(), 0))
@@ -82,7 +86,19 @@ class FakeVehicle:
                 la = lat + (tlat - lat) * k / steps
                 lo = lon + (tlon - lon) * k / steps
                 hdg = int((math.degrees(math.atan2((tlon - lon), (tlat - lat))) % 360) * 100)
-                self._send(self.mav.global_position_int_encode(int((time.monotonic() - boot) * 1000), int(la * 1e7), int(lo * 1e7), 400000, int(item.z * 1000), 0, 0, 0, hdg))
+                self._send(
+                    self.mav.global_position_int_encode(
+                        int((time.monotonic() - boot) * 1000),
+                        int(la * 1e7),
+                        int(lo * 1e7),
+                        400000,
+                        int(item.z * 1000),
+                        0,
+                        0,
+                        0,
+                        hdg,
+                    )
+                )
                 time.sleep(0.02)
             lat, lon = tlat, tlon
             self.reached.append(i)

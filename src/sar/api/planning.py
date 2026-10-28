@@ -49,7 +49,14 @@ def grid_geo(env: core.Env) -> dict[str, float]:
     cell = env.config.cell_m
     lat0, lon0 = proj.to_geo(o.x, o.y)
     lat1, lon1 = proj.to_geo(o.x + cell, o.y + cell)
-    return {"lat0": lat0, "lon0": lon0, "dlat": lat1 - lat0, "dlon": lon1 - lon0, "n": env.config.grid_n, "cell_m": cell}
+    return {
+        "lat0": lat0,
+        "lon0": lon0,
+        "dlat": lat1 - lat0,
+        "dlon": lon1 - lon0,
+        "n": env.config.grid_n,
+        "cell_m": cell,
+    }
 
 
 def start_state(spec: ScenarioSpec, seed: int) -> dict[str, Any]:
@@ -75,16 +82,38 @@ def fly_ahead(spec: ScenarioSpec, seed: int, name: str) -> dict[str, Any]:
     planner.reset(o)
     curve: list[float] = []
     tracks: list[list[list[int]]] = [[[int(c[0]), int(c[1])] for c in env.agent_cells()]]
-    frames = [{"t": 0, "belief": heat(env.belief()), "uavs": tracks[0], "active": env.agent_active().astype(int).tolist(), "pos": 0.0}]
+    frames = [
+        {
+            "t": 0,
+            "belief": heat(env.belief()),
+            "uavs": tracks[0],
+            "active": env.agent_active().astype(int).tolist(),
+            "pos": 0.0,
+        }
+    ]
     while not env.done:
         info = env.step(planner.act(o))
         curve.append(round(info.pos_expected, 5))
         cells = [[int(c[0]), int(c[1])] for c in env.agent_cells()]
         tracks.append(cells)
         if env.t % FRAME_EVERY_STEPS == 0 or env.done:
-            frames.append({"t": env.t, "belief": heat(env.belief()), "uavs": cells, "active": env.agent_active().astype(int).tolist(), "pos": curve[-1]})
+            frames.append(
+                {
+                    "t": env.t,
+                    "belief": heat(env.belief()),
+                    "uavs": cells,
+                    "active": env.agent_active().astype(int).tolist(),
+                    "pos": curve[-1],
+                }
+            )
         o = observe(env)
-    return {"planner": name, "expected_success": curve[-1] if curve else 0.0, "pos_curve": curve, "frames": frames, "tracks": tracks}
+    return {
+        "planner": name,
+        "expected_success": curve[-1] if curve else 0.0,
+        "pos_curve": curve,
+        "frames": frames,
+        "tracks": tracks,
+    }
 
 
 def lake_geometry() -> dict[str, Any]:

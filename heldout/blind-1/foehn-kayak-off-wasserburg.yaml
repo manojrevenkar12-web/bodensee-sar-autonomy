@@ -1,0 +1,20 @@
+id: foehn-kayak-off-wasserburg
+description: Capsized kayaker off Wasserburg in a southerly Föhn that is gusting stronger than forecast.
+incident:
+  last_known: {lat: 47.5650, lon: 9.6010}
+  position_error_m: 400
+  minutes_since: 50
+  reported_objects: {kayak_capsized: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 11.0
+  wind_from_deg: 170
+uavs:
+  count: 3
+  endurance_min: 30
+  base: langenargen
+search_minutes: 30
+truth:
+  object: kayak_capsized
+  wind_speed: 14.0
+  wind_from_deg: 185

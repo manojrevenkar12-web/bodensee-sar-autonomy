@@ -11,7 +11,10 @@ from sar import conf
 
 def _circle(proj: core.Projection, lat: float, lon: float, radius_m: float, n: int = 48) -> list[core.Vec2]:
     c = proj.to_local(lat, lon)
-    return [core.Vec2(c.x + radius_m * math.cos(2 * math.pi * k / n), c.y + radius_m * math.sin(2 * math.pi * k / n)) for k in range(n)]
+    return [
+        core.Vec2(c.x + radius_m * math.cos(2 * math.pi * k / n), c.y + radius_m * math.sin(2 * math.pi * k / n))
+        for k in range(n)
+    ]
 
 
 @lru_cache(maxsize=1)

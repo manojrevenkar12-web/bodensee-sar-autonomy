@@ -48,7 +48,10 @@ def random_spec(seed: int) -> ScenarioSpec:
                 "reported_objects": reported,
                 "time_of_day": "night" if rng.uniform() < d["night_share"] else "day",
             },
-            "forecast": {"wind_speed": float(rng.uniform(*d["wind_speed"])), "wind_from_deg": float(rng.uniform(0, 360))},
+            "forecast": {
+                "wind_speed": float(rng.uniform(*d["wind_speed"])),
+                "wind_from_deg": float(rng.uniform(0, 360)),
+            },
             "uavs": {
                 "count": int(rng.integers(d["n_uav"][0], d["n_uav"][1] + 1)),
                 "endurance_min": float(rng.uniform(*d["endurance_min"])),

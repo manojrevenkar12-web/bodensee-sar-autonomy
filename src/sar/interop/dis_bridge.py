@@ -31,8 +31,19 @@ class Entity:
     domain: int
 
 
-def entity_state(entity_id: int, marking: str, lat: float, lon: float, alt: float, heading_deg: float, speed: float,
-                 etype: tuple[int, ...] = UAV_TYPE, exercise: int = 1, site: int = 42, application: int = 7) -> bytes:
+def entity_state(
+    entity_id: int,
+    marking: str,
+    lat: float,
+    lon: float,
+    alt: float,
+    heading_deg: float,
+    speed: float,
+    etype: tuple[int, ...] = UAV_TYPE,
+    exercise: int = 1,
+    site: int = 42,
+    application: int = 7,
+) -> bytes:
     e = dis.EntityState()
     e.exercise, e.site, e.application, e.entity = exercise, site, application, entity_id
     t = dis.EntityType()
@@ -51,7 +62,19 @@ def parse(data: bytes) -> Entity | None:
     except ValueError:
         return None
     k = dis.get_kinematics(e)
-    return Entity(e.site, e.application, e.entity, e.marking, k.lat, k.lon, k.alt, k.heading_deg, k.speed, e.type.kind, e.type.domain)
+    return Entity(
+        e.site,
+        e.application,
+        e.entity,
+        e.marking,
+        k.lat,
+        k.lon,
+        k.alt,
+        k.heading_deg,
+        k.speed,
+        e.type.kind,
+        e.type.domain,
+    )
 
 
 class DisSocket:

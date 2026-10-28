@@ -34,7 +34,9 @@ class UploadResult:
     log: list[str] = field(default_factory=list)
 
 
-def mission_from_track(cells_geo: list[tuple[float, float]], base: tuple[float, float], alt_m: float = 40.0) -> list[Waypoint]:
+def mission_from_track(
+    cells_geo: list[tuple[float, float]], base: tuple[float, float], alt_m: float = 40.0
+) -> list[Waypoint]:
     """Take off at the base, fly the planned cells (merging straight runs), return to launch."""
     pts: list[tuple[float, float]] = []
     for p in cells_geo:
@@ -53,7 +55,9 @@ def mission_from_track(cells_geo: list[tuple[float, float]], base: tuple[float, 
 
 
 class MavlinkLink:
-    def __init__(self, host: str, port: int, target_system: int = 1, target_component: int = 1, timeout_s: float = 1.0) -> None:
+    def __init__(
+        self, host: str, port: int, target_system: int = 1, target_component: int = 1, timeout_s: float = 1.0
+    ) -> None:
         self.addr = (host, port)
         self.target = (target_system, target_component)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -99,7 +103,9 @@ class MavlinkLink:
             msgs = self.receive(self.timeout_s)
             if not msgs:
                 if retries >= max_retries:
-                    return UploadResult(False, len(items), retrans, time.monotonic() - t0, "vehicle stopped answering", log)
+                    return UploadResult(
+                        False, len(items), retrans, time.monotonic() - t0, "vehicle stopped answering", log
+                    )
                 retries += 1
                 retrans += 1
                 self.send(*last)
@@ -109,7 +115,9 @@ class MavlinkLink:
                 if msgid == 51:  # MISSION_REQUEST_INT
                     req = mav.unpack_mission_request_int(payload)
                     if req.seq >= len(items):
-                        return UploadResult(False, len(items), retrans, time.monotonic() - t0, f"vehicle asked for item {req.seq}", log)
+                        return UploadResult(
+                            False, len(items), retrans, time.monotonic() - t0, f"vehicle asked for item {req.seq}", log
+                        )
                     wp = items[req.seq]
                     it = mav.MissionItemInt()
                     it.seq = req.seq
@@ -127,7 +135,9 @@ class MavlinkLink:
                     ack = mav.unpack_mission_ack(payload)
                     ok = ack.type == 0
                     log.append(f"ACK {ack.type}")
-                    return UploadResult(ok, len(items), retrans, time.monotonic() - t0, "" if ok else f"rejected ({ack.type})", log)
+                    return UploadResult(
+                        ok, len(items), retrans, time.monotonic() - t0, "" if ok else f"rejected ({ack.type})", log
+                    )
 
     def start(self) -> None:
         cmd = mav.CommandLong()

@@ -1,0 +1,22 @@
+# Training and evaluation image for KubeRay: Ray RLlib, PyTorch (CPU), the simulator.
+FROM python:3.12-slim-bookworm AS wheel
+RUN apt-get update && apt-get install -y --no-install-recommends g++ cmake ninja-build && rm -rf /var/lib/apt/lists/*
+WORKDIR /src
+COPY pyproject.toml CMakeLists.txt README.md ./
+COPY cpp ./cpp
+COPY src ./src
+RUN pip wheel --no-cache-dir --no-deps -w /wheels .
+
+FROM python:3.12-slim-bookworm
+# KubeRay's probes use wget; Ray's start scripts use bash.
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
+ENV PYTHONUNBUFFERED=1 SAR_ROOT=/app MLFLOW_DISABLE_AGENT_HINT=1
+RUN useradd --create-home --uid 10001 ray
+WORKDIR /app
+COPY --from=wheel /wheels /wheels
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu "torch==2.15.0" \
+ && pip install --no-cache-dir "$(ls /wheels/*.whl)[train]" && rm -rf /wheels
+COPY config ./config
+COPY scenarios ./scenarios
+RUN mkdir -p /app/models && chown -R ray /app
+USER ray

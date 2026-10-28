@@ -1,0 +1,19 @@
+id: witnessed-fall-meersburg-calm
+description: Person seen going into the water from a motorboat off Meersburg moments ago, position marked precisely by the boat's GPS, light southerly breeze.
+incident:
+  last_known: {lat: 47.6595, lon: 9.3010}
+  position_error_m: 50
+  minutes_since: 0
+  reported_objects: {piw: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 2.0
+  wind_from_deg: 180
+uavs:
+  count: 2
+  endurance_min: 20
+  base: meersburg
+search_minutes: 20
+truth:
+  object: piw
+  entered_water: {lat: 47.6596, lon: 9.3012}

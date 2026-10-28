@@ -1,0 +1,16 @@
+id: night-sup-arbon-southwesterly
+description: Paddle boarder who set out from Arbon at dusk has not returned an hour later; south-westerly breeze, now dark.
+incident:
+  last_known: {lat: 47.5200, lon: 9.4950}
+  position_error_m: 700
+  minutes_since: 60
+  reported_objects: {sup_board: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 6.0
+  wind_from_deg: 210
+uavs:
+  count: 3
+  endurance_min: 30
+  base: arbon
+search_minutes: 30

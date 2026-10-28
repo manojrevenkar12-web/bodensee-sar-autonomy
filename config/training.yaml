@@ -30,3 +30,14 @@ smoke:
   minibatch_size: 100
   num_epochs: 1
   validation_scenarios: 2
+# Imitation start: clone the lookahead planner (plus DAgger), then PPO fine-tunes with a smaller
+# step so it keeps what it copied while it optimises the real objective.
+imitation:
+  episodes: 600
+  first_seed: 500000
+  epochs: 15
+  dagger_rounds: 1
+finetune:
+  lr: 0.00005
+  entropy_coeff: 0.002
+  iterations: 150

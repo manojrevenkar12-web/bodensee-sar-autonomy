@@ -1,0 +1,18 @@
+id: sup-report-actually-swimmer
+description: Caller reports a paddle boarder in trouble south of Immenstaad, but the person has in fact fallen off and lost the board.
+incident:
+  last_known: {lat: 47.6340, lon: 9.4010}
+  position_error_m: 350
+  minutes_since: 35
+  reported_objects: {sup_board: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 6.0
+  wind_from_deg: 250
+uavs:
+  count: 3
+  endurance_min: 30
+  base: immenstaad
+search_minutes: 30
+truth:
+  object: piw

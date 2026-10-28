@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@import "@fontsource/barlow-semi-condensed/400.css";
+@import "@fontsource/barlow-semi-condensed/500.css";
+@import "@fontsource/barlow-semi-condensed/600.css";
+@import "@fontsource-variable/source-serif-4/wght-italic.css";
+
+/* A nautical chart, day and night (after the ECDIS palettes): chart-blue water, buff land,
+   magenta for restricted areas, international orange for the rescue assets. */
+@theme {
+  --font-sans: "Barlow Semi Condensed", system-ui, sans-serif;
+  --font-chart: "Source Serif 4 Variable", Georgia, serif;
+
+  --color-canvas: #eef3f5;
+  --color-panel: #ffffff;
+  --color-sunk: #f5f8f9;
+  --color-line: #c9d6dd;
+  --color-ink: #0f2733;
+  --color-ink-soft: #3e5866;
+  --color-muted: #647b88;
+  --color-water: #d3e5ee;
+  --color-water-edge: #9fc1d1;
+  --color-land: #e9e3cc;
+  --color-restricted: #b0187b;
+  --color-rescue: #e3560a;
+  --color-heat: #e3560a;
+  --color-found: #17775a;
+  --color-alert: #b3261e;
+  --color-plan-iamsar: #6d7f89;
+  --color-plan-greedy: #2a7f9e;
+  --color-plan-lookahead: #1f3c88;
+  --color-plan-rl: #e3560a;
+
+  --radius-panel: 10px;
+  --radius-control: 6px;
+  --shadow-panel: 0 1px 0 rgb(15 39 51 / 0.06), 0 8px 24px -16px rgb(15 39 51 / 0.25);
+
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+}
+
+@layer base {
+  :root[data-theme="night"] {
+    --color-canvas: #071017;
+    --color-panel: #0c1a23;
+    --color-sunk: #0a161e;
+    --color-line: #1f3441;
+    --color-ink: #c9d8e0;
+    --color-ink-soft: #9fb3bf;
+    --color-muted: #6f8794;
+    --color-water: #0d2230;
+    --color-water-edge: #23465a;
+    --color-land: #161e23;
+    --color-restricted: #c04a97;
+    --color-rescue: #f08a3c;
+    --color-heat: #f08a3c;
+    --color-found: #49b28c;
+    --color-alert: #e5675f;
+    --color-plan-iamsar: #7f929c;
+    --color-plan-greedy: #4ea6c4;
+    --color-plan-lookahead: #8ea8f0;
+    --color-plan-rl: #f08a3c;
+    --shadow-panel: 0 0 0 1px rgb(255 255 255 / 0.02);
+  }
+  html {
+    font-family: var(--font-sans);
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-feature-settings: "tnum" 1;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-rescue);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .panel {
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--shadow-panel);
+  }
+  .skeleton {
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--color-sunk) 25%, var(--color-line) 50%, var(--color-sunk) 75%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton { animation: none; }
+  }
+}

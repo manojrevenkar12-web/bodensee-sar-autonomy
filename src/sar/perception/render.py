@@ -7,6 +7,7 @@ resolution that falls off away from the track)."""
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 import cv2
 import numpy as np
@@ -18,7 +19,7 @@ FRAME_PX = 512
 GSD_M = SWATH_M / FRAME_PX
 
 # Visible size (m) and contrast of each object, in daylight and in thermal.
-OBJECTS = {
+OBJECTS: dict[str, dict[str, Any]] = {
     "piw": {"size": (0.5, 0.5), "eo": (255, 110, 20), "thermal_dk": 9.0},  # head and shoulders, orange vest
     "sup_board": {"size": (3.0, 0.8), "eo": (240, 240, 235), "thermal_dk": 6.0},  # board, person on it
     "kayak_capsized": {"size": (3.6, 0.6), "eo": (230, 200, 40), "thermal_dk": 4.0},  # hull; person clings
@@ -80,16 +81,18 @@ def render(scene: Scene, rng: np.random.Generator) -> np.ndarray:
     occluded = scene.obj == "piw" and rng.uniform() < min(0.6, 0.025 * scene.wind**1.3)
     visible = scene.present and abs(scene.offset_m) < SWATH_M / 2 and not occluded
     if scene.sensor == "thermal":
-        img = 120.0 + 10.0 * waves  # water at about 15 C, mapped to grey levels
+        img: Any = 120.0 + 10.0 * waves  # water at about 15 C, mapped to grey levels
         if visible:
-            mask = np.zeros_like(img)
-            cv2.ellipse(mask, (int(cx), int(cy)), (max(1, int(w_px / 2)), max(1, int(h_px / 2))), angle, 0, 360, 1.0, -1)
+            mask: Any = np.zeros_like(img)
+            cv2.ellipse(  # type: ignore[call-overload]
+                mask, (int(cx), int(cy)), (max(1, int(w_px / 2)), max(1, int(h_px / 2))), angle, 0, 360, 1.0, -1
+            )
             img += mask * o["thermal_dk"] * 6.0 * contrast
         img = cv2.GaussianBlur(img, (0, 0), blur)
         img += rng.normal(0, 3.0, img.shape)  # sensor noise (NETD)
         return np.clip(img, 0, 255).astype(np.uint8)
     base = np.array([95, 85, 45], np.float32)  # lake green-blue, BGR
-    img = np.empty((FRAME_PX, FRAME_PX, 3), np.float32)
+    img = np.empty((FRAME_PX, FRAME_PX, 3), np.float32)  # type: ignore[no-redef]
     for c in range(3):
         img[..., c] = base[c] + 28.0 * waves
     for x, y, a, b in _whitecaps(rng, scene.wind):
@@ -99,8 +102,8 @@ def render(scene: Scene, rng: np.random.Generator) -> np.ndarray:
         cv2.circle(img, (gx, gy), int(rng.integers(15, 60)), (250, 250, 250), -1)
     if visible:
         bgr = np.array((o["eo"][2], o["eo"][1], o["eo"][0]), np.float32)
-        mask = np.zeros((FRAME_PX, FRAME_PX), np.float32)
-        cv2.ellipse(mask, (int(cx), int(cy)), (max(1, int(w_px / 2)), max(1, int(h_px / 2))), angle, 0, 360, 1.0, -1)
+        mask = np.zeros((FRAME_PX, FRAME_PX), np.float32)  # type: ignore[no-redef]
+        cv2.ellipse(mask, (int(cx), int(cy)), (max(1, int(w_px / 2)), max(1, int(h_px / 2))), angle, 0, 360, 1.0, -1)  # type: ignore[call-overload]
         alpha = (mask * contrast)[..., None]
         img = img * (1.0 - alpha) + bgr[None, None, :] * alpha
     img = cv2.GaussianBlur(img, (0, 0), blur)

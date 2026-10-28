@@ -1,0 +1,20 @@
+id: bise-forecast-turns-westerly
+description: Capsized kayak reported at night mid-lake east of Romanshorn; a light Bise was forecast but a westerly front has come through.
+incident:
+  last_known: {lat: 47.6105, lon: 9.4290}
+  position_error_m: 500
+  minutes_since: 40
+  reported_objects: {kayak_capsized: 1.0}
+  time_of_day: night
+forecast:
+  wind_speed: 4.0
+  wind_from_deg: 50
+uavs:
+  count: 3
+  endurance_min: 30
+  base: romanshorn
+search_minutes: 30
+truth:
+  object: kayak_capsized
+  wind_speed: 9.0
+  wind_from_deg: 250

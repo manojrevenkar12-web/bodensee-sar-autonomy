@@ -1,0 +1,102 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PIP_EXTRA_INDEX_URL: https://download.pytorch.org/whl/cpu
+  MLFLOW_DISABLE_AGENT_HINT: "1"
+  RAY_AUTH_MODE: disabled
+
+jobs:
+  cpp:
+    name: C++ core (sanitizers, warnings as errors)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Build tests with AddressSanitizer and UndefinedBehaviorSanitizer
+        run: cmake -S . -B build/asan -G Ninja -DSAR_BUILD_PYTHON=OFF -DSAR_BUILD_TESTS=ON -DSAR_SANITIZE=ON -DSAR_WERROR=ON -DCMAKE_BUILD_TYPE=Debug && cmake --build build/asan
+      - run: ./build/asan/sar_tests
+      - name: Release build and throughput
+        run: cmake -S . -B build/rel -G Ninja -DSAR_BUILD_PYTHON=OFF -DSAR_BUILD_TESTS=ON -DSAR_WERROR=ON -DCMAKE_BUILD_TYPE=Release && cmake --build build/rel && ./build/rel/sar_tests && ./build/rel/sar_bench
+
+  python:
+    name: Python, evaluation reproducibility, browser end to end
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v5
+        with: {node-version: "24"}
+      - run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Install (CPU PyTorch)
+        run: pip install -c constraints.txt -e ".[serve,train,interop,dev]"
+      - name: Build the console
+        run: cd console && npm ci --no-audit --no-fund && npm run build
+      - run: ruff check src tests && ruff format --check src tests
+      - run: mypy
+      - name: Type stubs of the C++ module are current
+        run: python -m nanobind.stubgen -m sar._sarsim -r -O src/sar && git diff --exit-code src/sar/_sarsim
+      - name: Tests (unit, simulator, interfaces, API, isolation)
+        run: pytest -q -m "not slow and not e2e"
+      - name: RLlib training smoke test
+        run: pytest -q -m slow
+      - name: Browser end to end (Playwright)
+        run: python -m playwright install --with-deps chromium && pytest -q -m e2e
+      - name: The committed evaluation reproduces
+        run: |
+          python -m sar.cli evaluate --set scenarios/dev --name dev
+          git diff --exit-code reports/evaluation/dev.json
+
+  console:
+    name: Console (types, unit tests)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: {node-version: "24"}
+      - run: cd console && npm ci --no-audit --no-fund && npx tsc -b && npx vitest run
+
+  kubernetes:
+    name: Images, KubeRay training job and API on kind
+    runs-on: ubuntu-24.04
+    needs: [cpp]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build images
+        run: |
+          docker build -f docker/Dockerfile.train -t bodensee-sar-train:ci .
+          docker build -f docker/Dockerfile.api -t bodensee-sar-api:ci .
+      - uses: helm/kind-action@v1
+        with: {cluster_name: sar, wait: 120s}
+      - name: Load images and install the KubeRay operator
+        run: |
+          kind load docker-image bodensee-sar-train:ci bodensee-sar-api:ci --name sar
+          helm repo add kuberay https://ray-project.github.io/kuberay-helm/
+          helm install kuberay-operator kuberay/kuberay-operator --version 1.6.0 --wait --timeout 5m
+      - name: Deploy the API and the training RayJob
+        run: kubectl apply -k deploy/k8s
+      - name: The API becomes ready and answers
+        run: |
+          kubectl -n sar rollout status deploy/sar-api --timeout=180s
+          kubectl -n sar port-forward svc/sar-api 8080:80 &
+          sleep 5
+          curl -fsS localhost:8080/api/health
+      - name: The training job finishes on the Ray cluster
+        run: |
+          for i in $(seq 1 120); do
+            s=$(kubectl -n sar get rayjob sar-train -o jsonpath='{.status.jobStatus}')
+            echo "job status: $s"
+            [ "$s" = "SUCCEEDED" ] && exit 0
+            [ "$s" = "FAILED" ] && break
+            sleep 10
+          done
+          kubectl -n sar get rayjob sar-train -o yaml | tail -40
+          kubectl -n sar logs -l job-name=sar-train --tail=100 || true
+          exit 1

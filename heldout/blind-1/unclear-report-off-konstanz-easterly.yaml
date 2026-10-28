@@ -1,0 +1,16 @@
+id: unclear-report-off-konstanz-easterly
+description: Vague report relayed through several people of someone in difficulty off Staad about ninety minutes ago, possibly a swimmer, paddle boarder or kayaker, light easterly.
+incident:
+  last_known: {lat: 47.6375, lon: 9.2960}
+  position_error_m: 1000
+  minutes_since: 90
+  reported_objects: {piw: 0.5, sup_board: 0.3, kayak_capsized: 0.2}
+  time_of_day: day
+forecast:
+  wind_speed: 3.0
+  wind_from_deg: 90
+uavs:
+  count: 3
+  endurance_min: 40
+  base: konstanz
+search_minutes: 45

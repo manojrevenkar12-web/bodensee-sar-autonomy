@@ -87,7 +87,7 @@ class ScenarioSpec(BaseModel):
 
     @property
     def horizon_steps(self) -> int:
-        return int(round(self.search_minutes * 60.0 / float(conf.read("sim")["env"]["dt_s"])))
+        return round(self.search_minutes * 60.0 / float(conf.read("sim")["env"]["dt_s"]))
 
 
 def load(path: str | Path) -> ScenarioSpec:

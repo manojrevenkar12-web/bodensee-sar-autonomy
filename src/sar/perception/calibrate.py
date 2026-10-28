@@ -74,4 +74,6 @@ def main(frames: int = 40) -> None:
     for sensor, classes in result["sensors"].items():
         for wclass, table in classes.items():
             widths = ", ".join(f"{k} {v['sweep_width_m']:.0f} m" for k, v in table.items())
-            print(f"  {sensor:8s} {wclass:9s} W: {widths}; false alarms/km2 {result['false_alarms_per_km2'][sensor][wclass]}")
+            print(
+                f"  {sensor:8s} {wclass:9s} W: {widths}; false alarms/km2 {result['false_alarms_per_km2'][sensor][wclass]}"
+            )

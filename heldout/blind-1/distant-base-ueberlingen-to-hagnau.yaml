@@ -1,0 +1,16 @@
+id: distant-base-ueberlingen-to-hagnau
+description: Swimmer missing off Hagnau in a moderate south-westerly; only the Überlingen drone team is available and must fly a long way out.
+incident:
+  last_known: {lat: 47.6330, lon: 9.3680}
+  position_error_m: 400
+  minutes_since: 30
+  reported_objects: {piw: 1.0}
+  time_of_day: day
+forecast:
+  wind_speed: 6.0
+  wind_from_deg: 220
+uavs:
+  count: 3
+  endurance_min: 35
+  base: ueberlingen
+search_minutes: 30
