@@ -1,0 +1,269 @@
+{
+ "by_scenario": {
+  "bise-forecast-turns-westerly": {
+   "greedy": 0.025,
+   "iamsar": 0.05,
+   "lookahead": 0.025,
+   "random": 0.0,
+   "rl": 0.0
+  },
+  "bise-night-swimmer-romanshorn": {
+   "greedy": 0.475,
+   "iamsar": 0.15,
+   "lookahead": 0.5,
+   "random": 0.225,
+   "rl": 0.425
+  },
+  "calm-night-long-search-mid-lake": {
+   "greedy": 0.15,
+   "iamsar": 0.05,
+   "lookahead": 0.075,
+   "random": 0.05,
+   "rl": 0.0
+  },
+  "calm-sup-ueberlingen-bay": {
+   "greedy": 0.95,
+   "iamsar": 0.675,
+   "lookahead": 0.925,
+   "random": 0.125,
+   "rl": 0.825
+  },
+  "dinghy-report-sailor-separated": {
+   "greedy": 0.35,
+   "iamsar": 0.45,
+   "lookahead": 0.225,
+   "random": 0.0,
+   "rl": 0.2
+  },
+  "distant-base-ueberlingen-to-hagnau": {
+   "greedy": 0.0,
+   "iamsar": 0.0,
+   "lookahead": 0.0,
+   "random": 0.0,
+   "rl": 0.0
+  },
+  "ferry-overboard-near-friedrichshafen": {
+   "greedy": 0.25,
+   "iamsar": 0.05,
+   "lookahead": 0.225,
+   "random": 0.0,
+   "rl": 0.125
+  },
+  "foehn-kayak-off-wasserburg": {
+   "greedy": 0.65,
+   "iamsar": 0.125,
+   "lookahead": 0.7,
+   "random": 0.025,
+   "rl": 0.4
+  },
+  "kayak-or-dinghy-mid-lake": {
+   "greedy": 0.0,
+   "iamsar": 0.0,
+   "lookahead": 0.0,
+   "random": 0.0,
+   "rl": 0.0
+  },
+  "night-sup-arbon-southwesterly": {
+   "greedy": 0.3,
+   "iamsar": 0.05,
+   "lookahead": 0.375,
+   "random": 0.0,
+   "rl": 0.15
+  },
+  "regatta-dinghy-langenargen": {
+   "greedy": 0.525,
+   "iamsar": 0.425,
+   "lookahead": 0.55,
+   "random": 0.025,
+   "rl": 0.325
+  },
+  "short-battery-konstanz-bise": {
+   "greedy": 0.0,
+   "iamsar": 0.0,
+   "lookahead": 0.0,
+   "random": 0.0,
+   "rl": 0.0
+  },
+  "single-drone-late-report-lindau": {
+   "greedy": 0.025,
+   "iamsar": 0.025,
+   "lookahead": 0.025,
+   "random": 0.025,
+   "rl": 0.025
+  },
+  "storm-short-battery-langenargen": {
+   "greedy": 0.15,
+   "iamsar": 0.0,
+   "lookahead": 0.225,
+   "random": 0.0,
+   "rl": 0.0
+  },
+  "strong-bise-dinghy-east-lake": {
+   "greedy": 0.25,
+   "iamsar": 0.125,
+   "lookahead": 0.3,
+   "random": 0.025,
+   "rl": 0.1
+  },
+  "sup-report-actually-swimmer": {
+   "greedy": 0.225,
+   "iamsar": 0.125,
+   "lookahead": 0.275,
+   "random": 0.0,
+   "rl": 0.15
+  },
+  "swimmer-near-altenrhein-airport": {
+   "greedy": 0.425,
+   "iamsar": 0.075,
+   "lookahead": 0.375,
+   "random": 0.0,
+   "rl": 0.275
+  },
+  "unclear-report-off-konstanz-easterly": {
+   "greedy": 0.05,
+   "iamsar": 0.0,
+   "lookahead": 0.05,
+   "random": 0.025,
+   "rl": 0.025
+  },
+  "westerly-storm-kayak-meersburg": {
+   "greedy": 0.425,
+   "iamsar": 0.1,
+   "lookahead": 0.45,
+   "random": 0.05,
+   "rl": 0.275
+  },
+  "witnessed-fall-meersburg-calm": {
+   "greedy": 0.975,
+   "iamsar": 0.375,
+   "lookahead": 1.0,
+   "random": 0.0,
+   "rl": 0.825
+  }
+ },
+ "code_commit": "b76dfc170fc6c93546f8274b99219bde139fd9bd",
+ "model_sha256": "2ee5ac5a86a35276f56a2c03e49f8aa5e8dde515890b7a8ad4d33a3ee3fa8db5",
+ "paired": {
+  "rl_minus_greedy": {
+   "ci": [
+    -0.1312,
+    -0.0775
+   ],
+   "success_difference": -0.1037
+  },
+  "rl_minus_iamsar": {
+   "ci": [
+    0.035,
+    0.0925
+   ],
+   "success_difference": 0.0638
+  },
+  "rl_minus_lookahead": {
+   "ci": [
+    -0.135,
+    -0.0813
+   ],
+   "success_difference": -0.1087
+  },
+  "rl_minus_random": {
+   "ci": [
+    0.1525,
+    0.2013
+   ],
+   "success_difference": 0.1775
+  }
+ },
+ "planners": {
+  "greedy": {
+   "expected_success": 0.4028,
+   "mean_minutes_to_find": 25.91,
+   "rule_violations": 0,
+   "runs": 800,
+   "shield_interventions": 0,
+   "success": 0.31,
+   "success_by_minute": {
+    "10": 0.2138,
+    "20": 0.2975,
+    "30": 0.3075
+   },
+   "success_ci": [
+    0.285,
+    0.3362
+   ]
+  },
+  "iamsar": {
+   "expected_success": 0.2017,
+   "mean_minutes_to_find": 29.66,
+   "rule_violations": 0,
+   "runs": 800,
+   "shield_interventions": 0,
+   "success": 0.1425,
+   "success_by_minute": {
+    "10": 0.085,
+    "20": 0.1338,
+    "30": 0.1413
+   },
+   "success_ci": [
+    0.1225,
+    0.1637
+   ]
+  },
+  "lookahead": {
+   "expected_success": 0.4079,
+   "mean_minutes_to_find": 25.92,
+   "rule_violations": 0,
+   "runs": 800,
+   "shield_interventions": 0,
+   "success": 0.315,
+   "success_by_minute": {
+    "10": 0.2263,
+    "20": 0.2987,
+    "30": 0.315
+   },
+   "success_ci": [
+    0.29,
+    0.3412
+   ]
+  },
+  "random": {
+   "expected_success": 0.0312,
+   "mean_minutes_to_find": 31.96,
+   "rule_violations": 0,
+   "runs": 800,
+   "shield_interventions": 0,
+   "success": 0.0288,
+   "success_by_minute": {
+    "10": 0.0075,
+    "20": 0.02,
+    "30": 0.0288
+   },
+   "success_ci": [
+    0.0187,
+    0.04
+   ]
+  },
+  "rl": {
+   "expected_success": 0.3506,
+   "mean_minutes_to_find": 28.5,
+   "rule_violations": 0,
+   "runs": 800,
+   "shield_interventions": 0,
+   "success": 0.2062,
+   "success_by_minute": {
+    "10": 0.135,
+    "20": 0.19,
+    "30": 0.2062
+   },
+   "success_ci": [
+    0.185,
+    0.2288
+   ]
+  }
+ },
+ "recorded_at": "2026-10-28T23:18:04Z",
+ "scenarios": 20,
+ "seeds_per_scenario": 40,
+ "set": "heldout/blind-1",
+ "set_sha256": "9a85a655008fb3ffe60a2028ff69384ed52a28cf854d7880ddc560f4012f5366",
+ "status": "heldout"
+}
