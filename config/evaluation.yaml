@@ -1,0 +1,10 @@
+# How searches are scored. Every planner flies the same scenario with the same seed, so they face
+# the same truth (common random numbers) and differences are paired.
+planners: [random, iamsar, greedy, lookahead, rl]
+seeds_per_scenario: 40
+milestones_min: [10, 20, 30]
+bootstrap:
+  resamples: 2000
+  seed: 7
+  confidence: 0.95
+lookahead_depth: 4

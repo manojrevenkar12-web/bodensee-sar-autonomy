@@ -1,0 +1,37 @@
+# What may be adrift, and how it drifts. Leeway = slope * U10 + intercept (m/s), downwind and
+# crosswind, each with a standard error, in the form of the IAMSAR / Allen & Plourde (1999)
+# leeway tables. VALUES ARE APPROXIMATE, chosen in the range those tables give for similar
+# objects; replace with an operational leeway table before any real use.
+objects:
+  piw:
+    label: Person in the water
+    dw_slope: 0.011
+    dw_icpt: 0.068
+    dw_sd: 0.03
+    cw_slope: 0.004
+    cw_icpt: 0.04
+    cw_sd: 0.02
+  sup_board:
+    label: Person on a stand-up paddle board
+    dw_slope: 0.022
+    dw_icpt: 0.02
+    dw_sd: 0.03
+    cw_slope: 0.008
+    cw_icpt: 0.02
+    cw_sd: 0.02
+  kayak_capsized:
+    label: Capsized kayak with person
+    dw_slope: 0.018
+    dw_icpt: 0.03
+    dw_sd: 0.03
+    cw_slope: 0.006
+    cw_icpt: 0.03
+    cw_sd: 0.02
+  dinghy_capsized:
+    label: Capsized sailing dinghy
+    dw_slope: 0.032
+    dw_icpt: 0.0
+    dw_sd: 0.04
+    cw_slope: 0.012
+    cw_icpt: 0.02
+    cw_sd: 0.03

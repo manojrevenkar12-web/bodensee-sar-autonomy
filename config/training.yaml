@@ -1,0 +1,32 @@
+# PPO through Ray RLlib (new API stack). Model selection uses the belief only: the expected
+# probability of success on validation scenarios drawn from the training distribution (not the
+# dev or held-out files), so no truth reaches training or selection.
+seed: 20261028
+iterations: 300
+reward_scale: 10.0
+model:
+  hidden: [256, 256]
+ppo:
+  lr: 0.0003
+  gamma: 0.995
+  lambda: 0.95
+  clip_param: 0.2
+  entropy_coeff: 0.01
+  vf_loss_coeff: 0.5
+  num_epochs: 6
+  train_batch_size_per_learner: 6000
+  minibatch_size: 750
+runners:
+  num_env_runners: 1
+  num_envs_per_env_runner: 4
+  rollout_fragment_length: auto
+validation:
+  every: 10
+  scenarios: 40          # generator seeds 900000.. (never used for training)
+  first_seed: 900000
+smoke:
+  iterations: 2
+  train_batch_size_per_learner: 400
+  minibatch_size: 100
+  num_epochs: 1
+  validation_scenarios: 2

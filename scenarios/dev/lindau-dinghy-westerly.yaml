@@ -1,0 +1,11 @@
+id: lindau-dinghy-westerly
+description: Sailing dinghy capsized west of Lindau after a storm warning, westerly gusts.
+incident:
+  last_known: {lat: 47.5580, lon: 9.6400}
+  position_error_m: 250
+  minutes_since: 15
+  reported_objects: {dinghy_capsized: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 10.0, wind_from_deg: 260}
+uavs: {count: 4, endurance_min: 30, base: lindau}
+search_minutes: 30

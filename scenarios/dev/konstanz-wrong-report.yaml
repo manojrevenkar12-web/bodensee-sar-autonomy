@@ -1,0 +1,13 @@
+id: konstanz-wrong-report
+description: Reported as a paddler, but the person fell off the board and is swimming.
+incident:
+  last_known: {lat: 47.6640, lon: 9.2400}
+  position_error_m: 250
+  minutes_since: 35
+  reported_objects: {sup_board: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 6.0, wind_from_deg: 240}
+uavs: {count: 3, endurance_min: 30, base: konstanz}
+search_minutes: 30
+truth:
+  object: piw

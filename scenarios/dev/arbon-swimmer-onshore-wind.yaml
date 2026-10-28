@@ -1,0 +1,11 @@
+id: arbon-swimmer-onshore-wind
+description: Swimmer off Arbon with a north-easterly pushing toward the Swiss shore; may wash up.
+incident:
+  last_known: {lat: 47.5270, lon: 9.4500}
+  position_error_m: 200
+  minutes_since: 50
+  reported_objects: {piw: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 6.0, wind_from_deg: 30}
+uavs: {count: 3, endurance_min: 30, base: arbon}
+search_minutes: 30

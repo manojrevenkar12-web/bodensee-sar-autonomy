@@ -1,0 +1,53 @@
+[build-system]
+requires = ["scikit-build-core>=0.11", "nanobind>=2.9"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "bodensee-sar-autonomy"
+version = "0.1.0"
+description = "Multi-UAV search planning for search and rescue on Lake Constance: a C++ simulation, IAMSAR baselines, deep reinforcement learning with Ray RLlib on Kubernetes, a safety shield, MAVLink and DIS interfaces, and a coordinator console."
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+dependencies = [
+  "numpy>=2.1",
+  "pydantic>=2.11",
+  "pyyaml>=6.0",
+  "scipy>=1.14",
+]
+
+[project.optional-dependencies]
+# runtime of the API and planners: ONNX policy, no Ray or torch needed
+serve = ["fastapi>=0.115", "uvicorn[standard]>=0.34", "onnxruntime>=1.22", "sqlalchemy>=2.0", "websockets>=15", "opencv-python-headless>=4.10"]
+# training and evaluation
+train = ["ray[rllib]==2.59.0", "torch>=2.7", "gymnasium>=1.0", "pettingzoo>=1.25", "mlflow-skinny>=3.0", "onnx>=1.18", "onnxscript>=0.3", "onnxruntime>=1.22", "opencv-python-headless>=4.10"]
+interop = ["pymavlink>=2.4.40", "opendis>=1.0"]
+dev = ["pytest>=8.3", "pytest-asyncio>=1.0", "httpx>=0.28", "ruff>=0.12", "mypy>=1.16", "types-PyYAML"]
+
+[project.scripts]
+sar = "sar.cli:main"
+
+[tool.scikit-build]
+cmake.version = ">=3.26"
+wheel.packages = ["src/sar"]
+build-dir = "build/{wheel_tag}"
+cmake.define = { SAR_BUILD_PYTHON = "ON", SAR_BUILD_TESTS = "OFF" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: trains or evaluates at scale", "ray: starts a Ray cluster"]
+addopts = "-p no:cacheprovider"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF", "NPY"]
+ignore = ["RUF001", "RUF002", "RUF003", "E501", "B905", "RUF012", "SIM108"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+files = ["src/sar"]
+exclude = ["src/sar/_sarsim"]

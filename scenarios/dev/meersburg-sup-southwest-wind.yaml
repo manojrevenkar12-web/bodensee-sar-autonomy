@@ -1,0 +1,11 @@
+id: meersburg-sup-southwest-wind
+description: Stand-up paddler blown off the shore near Meersburg in a south-westerly breeze.
+incident:
+  last_known: {lat: 47.6830, lon: 9.2800}
+  position_error_m: 250
+  minutes_since: 40
+  reported_objects: {sup_board: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 7.0, wind_from_deg: 230}
+uavs: {count: 3, endurance_min: 30, base: meersburg}
+search_minutes: 30

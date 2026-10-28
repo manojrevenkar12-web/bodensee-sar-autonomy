@@ -1,0 +1,11 @@
+id: immenstaad-swimmer-calm
+description: Swimmer reported missing 1.2 km off Immenstaad on a calm summer afternoon.
+incident:
+  last_known: {lat: 47.6530, lon: 9.3700}
+  position_error_m: 200
+  minutes_since: 20
+  reported_objects: {piw: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 2.0, wind_from_deg: 270}
+uavs: {count: 3, endurance_min: 30, base: immenstaad}
+search_minutes: 30

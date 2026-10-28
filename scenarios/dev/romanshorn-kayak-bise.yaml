@@ -1,0 +1,11 @@
+id: romanshorn-kayak-bise
+description: Capsized kayak north-east of Romanshorn in a fresh Bise, two UAVs available.
+incident:
+  last_known: {lat: 47.5800, lon: 9.4000}
+  position_error_m: 300
+  minutes_since: 25
+  reported_objects: {kayak_capsized: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 8.0, wind_from_deg: 45}
+uavs: {count: 2, endurance_min: 30, base: romanshorn}
+search_minutes: 30

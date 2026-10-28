@@ -1,0 +1,11 @@
+id: konstanz-night-swimmer
+description: Night swimmer missed by friends off Konstanz in a light Bise; thermal cameras.
+incident:
+  last_known: {lat: 47.6700, lon: 9.2250}
+  position_error_m: 300
+  minutes_since: 30
+  reported_objects: {piw: 1.0}
+  time_of_day: night
+forecast: {wind_speed: 3.0, wind_from_deg: 50}
+uavs: {count: 3, endurance_min: 35, base: konstanz}
+search_minutes: 30

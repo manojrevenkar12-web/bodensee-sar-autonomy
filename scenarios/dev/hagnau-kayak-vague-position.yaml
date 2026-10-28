@@ -1,0 +1,11 @@
+id: hagnau-kayak-vague-position
+description: Kayaker's phone call cut off; position known only to within a kilometre off Hagnau.
+incident:
+  last_known: {lat: 47.6650, lon: 9.3200}
+  position_error_m: 800
+  minutes_since: 20
+  reported_objects: {kayak_capsized: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 4.0, wind_from_deg: 240}
+uavs: {count: 3, endurance_min: 30, base: meersburg}
+search_minutes: 30

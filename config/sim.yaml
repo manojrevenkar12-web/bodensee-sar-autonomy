@@ -1,0 +1,48 @@
+# Simulation settings. Values marked ASSUMPTION are modelling choices, not measurements.
+env:
+  grid_n: 32            # cells per side
+  cell_m: 150           # 4.8 km square search area
+  dt_s: 15              # one cell per step: 10 m/s search speed
+  n_particles: 2048     # Monte Carlo drift forecast (belief)
+  transit_speed: 15     # m/s to and from the base
+  reserve_s: 180        # battery left on landing
+  crop: 11
+  coarse: 8
+  pre_search_dt_s: 60
+  max_agents: 4
+
+# What the coordinator assumes about the forecast (the belief).
+planner:
+  wind_speed_sd: 1.0          # m/s, forecast error             ASSUMPTION
+  wind_dir_sd_deg: 20         # degrees                         ASSUMPTION
+  current_factor: 0.025       # wind-driven surface current      ASSUMPTION (2-3% of U10)
+  current_factor_sd: 0.008
+  rw_sigma: 0.7               # turbulent diffusion, m/sqrt(s)  ASSUMPTION (K about 0.25 m2/s)
+
+# How the simulated world actually behaves around the forecast (the truth). Slightly wider
+# than the planner assumes, as forecasts tend to be.
+world:
+  wind_speed_err_sd: 1.3
+  wind_dir_err_sd_deg: 25
+  gust_sd: 1.0
+  gust_tau_s: 600
+  current_factor: 0.025
+  current_factor_sd: 0.01
+  rw_sigma: 0.8
+
+# Wind classes for the sensor calibration (U10, m/s, upper bounds).
+wind_classes:
+  calm: 4.0
+  moderate: 8.0
+  fresh: 99.0
+
+# Random scenarios for training (never the dev or held-out files).
+training_distribution:
+  delay_min: [10, 60]
+  position_error_m: [100, 500]
+  wind_speed: [1, 10]
+  n_uav: [2, 4]
+  endurance_min: [22, 40]
+  search_minutes: 30
+  mixed_object_report: 0.3     # share of reports that are unsure what is in the water
+  night_share: 0.4

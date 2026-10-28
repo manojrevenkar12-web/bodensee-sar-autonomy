@@ -1,0 +1,11 @@
+id: immenstaad-short-endurance
+description: Swimmer off Immenstaad, but only cold batteries with 16 minutes of flight are at hand.
+incident:
+  last_known: {lat: 47.6560, lon: 9.3500}
+  position_error_m: 200
+  minutes_since: 25
+  reported_objects: {piw: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 3.0, wind_from_deg: 250}
+uavs: {count: 3, endurance_min: 16, base: immenstaad}
+search_minutes: 30

@@ -1,0 +1,11 @@
+id: langenargen-sup-near-airspace
+description: Paddler drifting north of Langenargen, toward the Eriskircher Ried and the Friedrichshafen control zone.
+incident:
+  last_known: {lat: 47.6050, lon: 9.5150}
+  position_error_m: 250
+  minutes_since: 30
+  reported_objects: {sup_board: 1.0}
+  time_of_day: day
+forecast: {wind_speed: 5.0, wind_from_deg: 200}
+uavs: {count: 3, endurance_min: 30, base: langenargen}
+search_minutes: 30

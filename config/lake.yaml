@@ -1,0 +1,65 @@
+# Lake Constance (Obersee and Überlinger See), outlined through shore towns.
+# APPROXIMATE: hand-placed vertices, accurate to roughly 0.5-1 km. Good for simulation and
+# training, not for navigation. The Untersee (west of Konstanz) is not included.
+projection_origin: {lat: 47.62, lon: 9.40}
+raster_m: 50
+shoreline:   # counter-clockwise from Hard, at the Rhine delta
+  - [47.492, 9.690]   # Hard
+  - [47.506, 9.740]   # Bregenz
+  - [47.524, 9.747]   # Lochau
+  - [47.545, 9.685]   # Lindau
+  - [47.566, 9.629]   # Wasserburg
+  - [47.576, 9.611]   # Nonnenhorn
+  - [47.590, 9.594]   # Kressbronn
+  - [47.596, 9.541]   # Langenargen
+  - [47.615, 9.512]   # Eriskirch
+  - [47.650, 9.478]   # Friedrichshafen
+  - [47.664, 9.418]   # Fischbach
+  - [47.664, 9.367]   # Immenstaad
+  - [47.675, 9.318]   # Hagnau
+  - [47.693, 9.272]   # Meersburg
+  - [47.722, 9.225]   # Unteruhldingen
+  - [47.740, 9.205]   # Seefelden
+  - [47.764, 9.160]   # Überlingen
+  - [47.795, 9.100]   # Sipplingen
+  - [47.818, 9.058]   # Ludwigshafen
+  - [47.806, 9.032]   # Bodman
+  - [47.758, 9.118]   # Wallhausen
+  - [47.730, 9.150]   # Dingelsdorf
+  - [47.705, 9.192]   # Mainau
+  - [47.668, 9.205]   # Konstanz, Hörnle
+  - [47.659, 9.180]   # Konstanz harbour
+  - [47.652, 9.182]   # Kreuzlingen
+  - [47.640, 9.208]   # Bottighofen
+  - [47.633, 9.235]   # Münsterlingen
+  - [47.612, 9.262]   # Altnau
+  - [47.603, 9.287]   # Güttingen
+  - [47.597, 9.320]   # Kesswil
+  - [47.585, 9.341]   # Uttwil
+  - [47.566, 9.380]   # Romanshorn
+  - [47.545, 9.405]   # Egnach
+  - [47.517, 9.437]   # Arbon
+  - [47.495, 9.462]   # Horn
+  - [47.479, 9.495]   # Rorschach
+  - [47.480, 9.535]   # Staad
+  - [47.491, 9.553]   # Altenrhein
+  - [47.477, 9.600]   # Old Rhine mouth
+  - [47.495, 9.660]   # Fussach, Rhine mouth
+
+# Airspace and protected areas where the UAVs may not fly. Circles, APPROXIMATE and
+# illustrative: real limits come from the aeronautical charts and the local authorities.
+no_fly:
+  - {name: "Friedrichshafen airport (EDNY), control zone", lat: 47.6713, lon: 9.5115, radius_m: 3500}
+  - {name: "St. Gallen-Altenrhein airport (LSZR)", lat: 47.4850, lon: 9.5607, radius_m: 2500}
+  - {name: "Eriskircher Ried nature reserve", lat: 47.6250, lon: 9.5300, radius_m: 1000}
+
+# Shore sites UAV teams launch from (illustrative).
+sites:
+  immenstaad: {name: "Immenstaad", lat: 47.6640, lon: 9.3670}
+  konstanz: {name: "Konstanz harbour", lat: 47.6595, lon: 9.1800}
+  meersburg: {name: "Meersburg", lat: 47.6930, lon: 9.2710}
+  ueberlingen: {name: "Überlingen", lat: 47.7630, lon: 9.1620}
+  romanshorn: {name: "Romanshorn", lat: 47.5660, lon: 9.3800}
+  arbon: {name: "Arbon", lat: 47.5170, lon: 9.4370}
+  lindau: {name: "Lindau", lat: 47.5440, lon: 9.6830}
+  langenargen: {name: "Langenargen", lat: 47.5960, lon: 9.5410}

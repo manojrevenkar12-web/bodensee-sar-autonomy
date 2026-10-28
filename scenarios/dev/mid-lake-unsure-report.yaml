@@ -1,0 +1,11 @@
+id: mid-lake-unsure-report
+description: A ferry passenger saw "someone in the water, maybe on a board" in the middle of the lake.
+incident:
+  last_known: {lat: 47.6000, lon: 9.4200}
+  position_error_m: 500
+  minutes_since: 45
+  reported_objects: {piw: 0.5, sup_board: 0.5}
+  time_of_day: day
+forecast: {wind_speed: 5.0, wind_from_deg: 240}
+uavs: {count: 3, endurance_min: 35, base: romanshorn}
+search_minutes: 30

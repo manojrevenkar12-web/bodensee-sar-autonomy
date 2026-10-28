@@ -1,0 +1,11 @@
+id: ueberlingen-arm-night-late
+description: Swimmer overdue in the Überlinger See, reported an hour late at night.
+incident:
+  last_known: {lat: 47.7570, lon: 9.1450}
+  position_error_m: 300
+  minutes_since: 60
+  reported_objects: {piw: 1.0}
+  time_of_day: night
+forecast: {wind_speed: 4.0, wind_from_deg: 300}
+uavs: {count: 3, endurance_min: 35, base: ueberlingen}
+search_minutes: 30
