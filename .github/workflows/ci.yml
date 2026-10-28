@@ -36,7 +36,9 @@ jobs:
         with: {node-version: "24"}
       - run: sudo apt-get update && sudo apt-get install -y ninja-build
       - name: Install (CPU PyTorch)
-        run: pip install -c constraints.txt -e ".[serve,train,interop,dev]"
+        run: |
+          pip install -c constraints.txt -e ".[serve,train,interop,dev]"
+          pip install --no-deps opendis==1.0  # test oracle for DIS; pins numpy<2, which we do not use with it
       - name: Build the console
         run: cd console && npm ci --no-audit --no-fund && npm run build
       - run: ruff check src tests && ruff format --check src tests

@@ -5,6 +5,7 @@
 ```bash
 python3.12 -m venv .venv && .venv/bin/pip install -e ".[serve,train,interop,dev]" -c constraints.txt \
     --extra-index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pip install --no-deps opendis==1.0          # DIS test oracle
 .venv/bin/pytest -q -m "not slow and not e2e"     # about a minute: simulator, interfaces, API, isolation
 .venv/bin/pytest -q -m slow                       # RLlib training smoke test
 cd console && npm ci && npm run build && cd ..    # then: .venv/bin/pytest -q -m e2e (Playwright)

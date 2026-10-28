@@ -5,49 +5,49 @@
    "iamsar": 0.3,
    "lookahead": 0.35,
    "random": 0.1,
-   "rl": 0.375
+   "rl": 0.35
   },
   "hagnau-kayak-vague-position": {
    "greedy": 0.25,
    "iamsar": 0.175,
    "lookahead": 0.4,
    "random": 0.0,
-   "rl": 0.1
+   "rl": 0.15
   },
   "immenstaad-short-endurance": {
    "greedy": 0.6,
    "iamsar": 0.45,
    "lookahead": 0.675,
    "random": 0.025,
-   "rl": 0.35
+   "rl": 0.475
   },
   "immenstaad-swimmer-calm": {
    "greedy": 0.725,
    "iamsar": 0.5,
    "lookahead": 0.625,
    "random": 0.05,
-   "rl": 0.65
+   "rl": 0.525
   },
   "konstanz-night-swimmer": {
    "greedy": 0.775,
    "iamsar": 0.75,
    "lookahead": 0.7,
    "random": 0.0,
-   "rl": 0.575
+   "rl": 0.425
   },
   "konstanz-wrong-report": {
    "greedy": 0.25,
    "iamsar": 0.325,
    "lookahead": 0.35,
    "random": 0.0,
-   "rl": 0.25
+   "rl": 0.2
   },
   "langenargen-sup-near-airspace": {
    "greedy": 0.9,
    "iamsar": 0.7,
    "lookahead": 0.9,
    "random": 0.025,
-   "rl": 0.65
+   "rl": 0.675
   },
   "lindau-dinghy-westerly": {
    "greedy": 0.775,
@@ -61,59 +61,59 @@
    "iamsar": 0.675,
    "lookahead": 0.875,
    "random": 0.1,
-   "rl": 0.7
+   "rl": 0.75
   },
   "mid-lake-unsure-report": {
    "greedy": 0.4,
    "iamsar": 0.075,
    "lookahead": 0.25,
    "random": 0.0,
-   "rl": 0.225
+   "rl": 0.2
   },
   "romanshorn-kayak-bise": {
    "greedy": 0.5,
    "iamsar": 0.45,
    "lookahead": 0.575,
    "random": 0.075,
-   "rl": 0.325
+   "rl": 0.5
   },
   "ueberlingen-arm-night-late": {
    "greedy": 0.425,
    "iamsar": 0.55,
    "lookahead": 0.6,
    "random": 0.25,
-   "rl": 0.35
+   "rl": 0.275
   }
  },
- "model_sha256": "930b1f84b94504818d11d2c0352f98e1ad0875c89d4e18048fe07faaae7df41a",
+ "model_sha256": "2ee5ac5a86a35276f56a2c03e49f8aa5e8dde515890b7a8ad4d33a3ee3fa8db5",
  "paired": {
   "rl_minus_greedy": {
    "ci": [
-    -0.1792,
-    -0.0896
+    -0.1812,
+    -0.0958
    ],
-   "success_difference": -0.1354
+   "success_difference": -0.1375
   },
   "rl_minus_iamsar": {
    "ci": [
-    -0.0812,
-    0.0292
+    -0.0833,
+    0.0208
    ],
-   "success_difference": -0.0271
+   "success_difference": -0.0292
   },
   "rl_minus_lookahead": {
    "ci": [
-    -0.2062,
-    -0.1146
+    -0.2042,
+    -0.1188
    ],
-   "success_difference": -0.1604
+   "success_difference": -0.1625
   },
   "rl_minus_random": {
    "ci": [
-    0.3375,
-    0.425
+    0.3313,
+    0.4208
    ],
-   "success_difference": 0.3812
+   "success_difference": 0.3792
   }
  },
  "planners": {
@@ -186,20 +186,20 @@
    ]
   },
   "rl": {
-   "expected_success": 0.6761,
-   "mean_minutes_to_find": 20.9,
+   "expected_success": 0.6787,
+   "mean_minutes_to_find": 20.84,
    "rule_violations": 0,
    "runs": 480,
    "shield_interventions": 0,
-   "success": 0.4354,
+   "success": 0.4333,
    "success_by_minute": {
-    "10": 0.275,
-    "20": 0.3875,
-    "30": 0.4354
+    "10": 0.2708,
+    "20": 0.4146,
+    "30": 0.4333
    },
    "success_ci": [
-    0.3958,
-    0.4751
+    0.3937,
+    0.4729
    ]
   }
  },

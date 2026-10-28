@@ -1,0 +1,22 @@
+{
+ "model": "policy.onnx",
+ "algorithm": "PPO (Ray RLlib, new API stack), parameters shared by all UAVs, action mask from the safety shield",
+ "start": "imitation",
+ "imitation": {
+  "agreement_with_lookahead": 0.5527,
+  "value_mse": 0.121,
+  "samples": 229200,
+  "episodes": 600
+ },
+ "obs_dim": 804,
+ "actions": 9,
+ "iterations": 150,
+ "selected_iteration": 0,
+ "validation_pos_expected": 0.6313674455400089,
+ "validation": "40 generated scenarios from seed 900000 (belief only, no truth)",
+ "env_steps": 900190,
+ "train_seconds": 1685,
+ "code_commit": "de6089515c687677e59099efc6afdf6613f5146b",
+ "config_sha256": "e7ca4623802a54fab2b1c3802505e201f81e21f092cc8c49bdee296be06c0dd9",
+ "sha256": "2ee5ac5a86a35276f56a2c03e49f8aa5e8dde515890b7a8ad4d33a3ee3fa8db5"
+}
