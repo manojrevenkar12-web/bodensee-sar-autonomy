@@ -147,6 +147,7 @@ NB_MODULE(_sarsim, m) {
       .def_rw("coarse", &sar::EnvConfig::coarse)
       .def_rw("pre_search_dt_s", &sar::EnvConfig::pre_search_dt_s)
       .def_rw("max_agents", &sar::EnvConfig::max_agents)
+      .def_rw("reach_sigma_cells", &sar::EnvConfig::reach_sigma_cells)
       .def_prop_ro("obs_dim", &sar::EnvConfig::obs_dim);
 
   nb::class_<sar::ExternalScan>(m, "ExternalScan")

@@ -74,7 +74,9 @@ struct EnvConfig {
   double pre_search_dt_s = 60.0;    // step used to drift from incident to start of search
   int max_agents = 4;
 
-  int obs_dim() const { return 4 * crop * crop + 3 * coarse * coarse + 7; }
+  double reach_sigma_cells = 3.0;   // spread of the 'reachable probability' channel
+
+  int obs_dim() const { return 5 * crop * crop + 3 * coarse * coarse + 7; }
 };
 
 constexpr int kActions = 9;  // stay, N, NE, E, SE, S, SW, W, NW

@@ -1,0 +1,210 @@
+{
+ "by_scenario": {
+  "arbon-swimmer-onshore-wind": {
+   "greedy": 0.375,
+   "iamsar": 0.3,
+   "lookahead": 0.35,
+   "random": 0.1,
+   "rl": 0.375
+  },
+  "hagnau-kayak-vague-position": {
+   "greedy": 0.25,
+   "iamsar": 0.175,
+   "lookahead": 0.4,
+   "random": 0.0,
+   "rl": 0.1
+  },
+  "immenstaad-short-endurance": {
+   "greedy": 0.6,
+   "iamsar": 0.45,
+   "lookahead": 0.675,
+   "random": 0.025,
+   "rl": 0.35
+  },
+  "immenstaad-swimmer-calm": {
+   "greedy": 0.725,
+   "iamsar": 0.5,
+   "lookahead": 0.625,
+   "random": 0.05,
+   "rl": 0.65
+  },
+  "konstanz-night-swimmer": {
+   "greedy": 0.775,
+   "iamsar": 0.75,
+   "lookahead": 0.7,
+   "random": 0.0,
+   "rl": 0.575
+  },
+  "konstanz-wrong-report": {
+   "greedy": 0.25,
+   "iamsar": 0.325,
+   "lookahead": 0.35,
+   "random": 0.0,
+   "rl": 0.25
+  },
+  "langenargen-sup-near-airspace": {
+   "greedy": 0.9,
+   "iamsar": 0.7,
+   "lookahead": 0.9,
+   "random": 0.025,
+   "rl": 0.65
+  },
+  "lindau-dinghy-westerly": {
+   "greedy": 0.775,
+   "iamsar": 0.6,
+   "lookahead": 0.85,
+   "random": 0.025,
+   "rl": 0.675
+  },
+  "meersburg-sup-southwest-wind": {
+   "greedy": 0.875,
+   "iamsar": 0.675,
+   "lookahead": 0.875,
+   "random": 0.1,
+   "rl": 0.7
+  },
+  "mid-lake-unsure-report": {
+   "greedy": 0.4,
+   "iamsar": 0.075,
+   "lookahead": 0.25,
+   "random": 0.0,
+   "rl": 0.225
+  },
+  "romanshorn-kayak-bise": {
+   "greedy": 0.5,
+   "iamsar": 0.45,
+   "lookahead": 0.575,
+   "random": 0.075,
+   "rl": 0.325
+  },
+  "ueberlingen-arm-night-late": {
+   "greedy": 0.425,
+   "iamsar": 0.55,
+   "lookahead": 0.6,
+   "random": 0.25,
+   "rl": 0.35
+  }
+ },
+ "model_sha256": "930b1f84b94504818d11d2c0352f98e1ad0875c89d4e18048fe07faaae7df41a",
+ "paired": {
+  "rl_minus_greedy": {
+   "ci": [
+    -0.1792,
+    -0.0896
+   ],
+   "success_difference": -0.1354
+  },
+  "rl_minus_iamsar": {
+   "ci": [
+    -0.0812,
+    0.0292
+   ],
+   "success_difference": -0.0271
+  },
+  "rl_minus_lookahead": {
+   "ci": [
+    -0.2062,
+    -0.1146
+   ],
+   "success_difference": -0.1604
+  },
+  "rl_minus_random": {
+   "ci": [
+    0.3375,
+    0.425
+   ],
+   "success_difference": 0.3812
+  }
+ },
+ "planners": {
+  "greedy": {
+   "expected_success": 0.7205,
+   "mean_minutes_to_find": 17.67,
+   "rule_violations": 0,
+   "runs": 480,
+   "shield_interventions": 0,
+   "success": 0.5708,
+   "success_by_minute": {
+    "10": 0.3979,
+    "20": 0.5396,
+    "30": 0.5708
+   },
+   "success_ci": [
+    0.5312,
+    0.6104
+   ]
+  },
+  "iamsar": {
+   "expected_success": 0.5652,
+   "mean_minutes_to_find": 20.99,
+   "rule_violations": 0,
+   "runs": 480,
+   "shield_interventions": 0,
+   "success": 0.4625,
+   "success_by_minute": {
+    "10": 0.2708,
+    "20": 0.4042,
+    "30": 0.4625
+   },
+   "success_ci": [
+    0.4208,
+    0.5042
+   ]
+  },
+  "lookahead": {
+   "expected_success": 0.7248,
+   "mean_minutes_to_find": 17.07,
+   "rule_violations": 0,
+   "runs": 480,
+   "shield_interventions": 0,
+   "success": 0.5958,
+   "success_by_minute": {
+    "10": 0.4083,
+    "20": 0.5687,
+    "30": 0.5958
+   },
+   "success_ci": [
+    0.5563,
+    0.6354
+   ]
+  },
+  "random": {
+   "expected_success": 0.0585,
+   "mean_minutes_to_find": 29.08,
+   "rule_violations": 0,
+   "runs": 480,
+   "shield_interventions": 0,
+   "success": 0.0542,
+   "success_by_minute": {
+    "10": 0.025,
+    "20": 0.0375,
+    "30": 0.0542
+   },
+   "success_ci": [
+    0.0354,
+    0.075
+   ]
+  },
+  "rl": {
+   "expected_success": 0.6761,
+   "mean_minutes_to_find": 20.9,
+   "rule_violations": 0,
+   "runs": 480,
+   "shield_interventions": 0,
+   "success": 0.4354,
+   "success_by_minute": {
+    "10": 0.275,
+    "20": 0.3875,
+    "30": 0.4354
+   },
+   "success_ci": [
+    0.3958,
+    0.4751
+   ]
+  }
+ },
+ "scenarios": 12,
+ "seeds_per_scenario": 40,
+ "set": "scenarios/dev",
+ "set_sha256": "6a374fdfb711d81fc285122f03b23d6b90a4b4352353ef3231252ab6d203d7af"
+}

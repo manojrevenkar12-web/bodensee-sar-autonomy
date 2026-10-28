@@ -249,6 +249,38 @@ void Env::histogram() {
     if (mass[c] > 0.0) pod_cell_[c] = static_cast<float>(pod_mass[c] / mass[c]);
   }
   p_out_ = static_cast<float>(out * inv);
+  // Reachable probability: what a UAV could detect, spread with a Gaussian (separable blur) so a
+  // policy sees which way the probability lies beyond its own window. Scaled to its maximum.
+  const int gn = cfg_.grid_n;
+  const int r = static_cast<int>(std::ceil(3.0 * cfg_.reach_sigma_cells));
+  std::vector<double> k(static_cast<std::size_t>(2 * r + 1));
+  for (int d = -r; d <= r; ++d)
+    k[static_cast<std::size_t>(d + r)] = std::exp(-0.5 * d * d / (cfg_.reach_sigma_cells * cfg_.reach_sigma_cells));
+  std::vector<double> src(cells), tmp(cells, 0.0), dst(cells, 0.0);
+  for (std::size_t c = 0; c < cells; ++c) src[c] = static_cast<double>(p_cell_[c]) * pod_cell_[c];
+  for (int y = 0; y < gn; ++y)
+    for (int x = 0; x < gn; ++x) {
+      double acc = 0.0;
+      for (int d = -r; d <= r; ++d) {
+        const int xx = x + d;
+        if (xx >= 0 && xx < gn) acc += k[static_cast<std::size_t>(d + r)] * src[static_cast<std::size_t>(y) * gn + xx];
+      }
+      tmp[static_cast<std::size_t>(y) * gn + x] = acc;
+    }
+  double mx = 0.0;
+  for (int y = 0; y < gn; ++y)
+    for (int x = 0; x < gn; ++x) {
+      double acc = 0.0;
+      for (int d = -r; d <= r; ++d) {
+        const int yy = y + d;
+        if (yy >= 0 && yy < gn) acc += k[static_cast<std::size_t>(d + r)] * tmp[static_cast<std::size_t>(yy) * gn + x];
+      }
+      dst[static_cast<std::size_t>(y) * gn + x] = acc;
+      mx = std::max(mx, acc);
+    }
+  reach_.assign(cells, 0.0f);
+  if (mx > 0.0)
+    for (std::size_t c = 0; c < cells; ++c) reach_[c] = static_cast<float>(dst[c] / mx);
 }
 
 double Env::return_time_s(int ix, int iy) const {
@@ -407,6 +439,7 @@ std::uint16_t Env::observe(int agent, float* obs) const {
   float* search_ch = obs + cr * cr;
   float* block_ch = obs + 2 * cr * cr;
   float* others_ch = obs + 3 * cr * cr;
+  float* reach_ch = obs + 4 * cr * cr;
   for (int dy = -h; dy <= h; ++dy)
     for (int dx = -h; dx <= h; ++dx) {
       const int jx = me.ix + dx, jy = me.iy + dy;
@@ -417,6 +450,7 @@ std::uint16_t Env::observe(int agent, float* obs) const {
       }
       const std::size_t c = static_cast<std::size_t>(jy) * gn + jx;
       belief_ch[o] = std::log1p(p_cell_[c] * static_cast<float>(gn * gn)) * scale;
+      reach_ch[o] = reach_[c];
       search_ch[o] = searchable_[c];
       block_ch[o] = no_fly_[c];
     }
@@ -425,7 +459,7 @@ std::uint16_t Env::observe(int agent, float* obs) const {
     const int dx = agents_[k].ix - me.ix, dy = agents_[k].iy - me.iy;
     if (std::abs(dx) <= h && std::abs(dy) <= h) others_ch[(dy + h) * cr + (dx + h)] += 1.0f;
   }
-  float* coarse = obs + 4 * cr * cr;
+  float* coarse = obs + 5 * cr * cr;
   float* self_c = coarse + kq * kq;
   float* other_c = coarse + 2 * kq * kq;
   const float cscale = 1.0f / std::log1p(static_cast<float>(kq * kq));
@@ -437,7 +471,7 @@ std::uint16_t Env::observe(int agent, float* obs) const {
   self_c[(me.iy / bs) * kq + me.ix / bs] = 1.0f;
   for (int k = 0; k < n_agents(); ++k)
     if (k != agent && agents_[k].active) other_c[(agents_[k].iy / bs) * kq + agents_[k].ix / bs] += 1.0f;
-  float* sc = obs + 4 * cr * cr + 3 * kq * kq;
+  float* sc = obs + 5 * cr * cr + 3 * kq * kq;
   int active = 0;
   for (const auto& a : agents_) active += a.active ? 1 : 0;
   double prior_pod = 0.0;

@@ -36,7 +36,7 @@ export const plannerMeta: Record<string, { label: string; note: string; color: s
   iamsar: { label: "IAMSAR pattern", note: "Parallel sweep or expanding square, as the manual tasks it", color: "var(--color-plan-iamsar)", dashed: true },
   greedy: { label: "Greedy", note: "Each UAV takes the richest next cell", color: "var(--color-plan-greedy)" },
   lookahead: { label: "Lookahead", note: "Plans four moves ahead for every UAV", color: "var(--color-plan-lookahead)" },
-  rl: { label: "Learned policy", note: "Trained with reinforcement learning", color: "var(--color-plan-rl)" },
+  rl: { label: "Learned policy", note: "Neural network cloned from the lookahead, fine-tuned with PPO", color: "var(--color-plan-rl)" },
 };
 
 export const objectLabels: Record<string, string> = {

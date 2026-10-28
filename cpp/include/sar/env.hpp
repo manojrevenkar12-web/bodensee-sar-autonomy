@@ -130,7 +130,7 @@ class Env {
   // grid
   double gx0_ = 0.0, gy0_ = 0.0;
   std::vector<std::uint8_t> searchable_, no_fly_;
-  std::vector<float> p_cell_, pod_cell_;
+  std::vector<float> p_cell_, pod_cell_, reach_;
   float p_out_ = 0.0f;
   std::vector<double> return_s_;
 

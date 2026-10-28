@@ -74,7 +74,9 @@ def test_trained_policy_card_matches_the_model():
         pytest.skip("no trained model")
     card = json.loads(model.with_suffix(".json").read_text())
     assert card["sha256"] == hashlib.sha256(model.read_bytes()).hexdigest()
-    assert card["obs_dim"] == 683 and card["actions"] == 9
+    from sar.sim.build import env_config
+
+    assert card["obs_dim"] == env_config().obs_dim and card["actions"] == 9
 
 
 @pytest.mark.slow
