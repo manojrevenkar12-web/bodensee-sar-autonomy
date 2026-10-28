@@ -44,7 +44,12 @@ jobs:
       - run: ruff check src tests && ruff format --check src tests
       - run: mypy
       - name: Type stubs of the C++ module are current
-        run: python -m nanobind.stubgen -m sar._sarsim -r -O src/sar && git diff --exit-code src/sar/_sarsim
+        run: |
+          python -m nanobind.stubgen -m sar._sarsim -r -O src/sar
+          if ! git diff --quiet src/sar/_sarsim; then
+            echo "::error title=stubs::$(git diff src/sar/_sarsim | head -c 20000 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          fi
       - name: Tests (unit, simulator, interfaces, API, isolation)
         run: pytest -q -m "not slow and not e2e"
       - name: RLlib training smoke test
@@ -92,13 +97,21 @@ jobs:
           curl -fsS localhost:8080/api/health
       - name: The training job finishes on the Ray cluster
         run: |
-          for i in $(seq 1 120); do
+          report() {
+            for part in "kubectl -n sar get rayjob sar-train -o jsonpath={.status}" "kubectl -n sar get pods -o wide" \
+                        "kubectl -n sar describe pods" "kubectl -n sar logs -l ray.io/node-type=head --tail=80" \
+                        "kubectl -n sar logs -l batch.kubernetes.io/job-name=sar-train --tail=80"; do
+              out=$($part 2>&1 | tail -c 12000 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+              echo "::error title=$(echo $part | cut -c1-60)::$out"
+            done
+          }
+          for i in $(seq 1 90); do
             s=$(kubectl -n sar get rayjob sar-train -o jsonpath='{.status.jobStatus}')
-            echo "job status: $s"
+            d=$(kubectl -n sar get rayjob sar-train -o jsonpath='{.status.jobDeploymentStatus}')
+            echo "job status: $s, deployment: $d"
             [ "$s" = "SUCCEEDED" ] && exit 0
-            [ "$s" = "FAILED" ] && break
+            { [ "$s" = "FAILED" ] || [ "$s" = "STOPPED" ] || [ "$d" = "Failed" ]; } && break
             sleep 10
           done
-          kubectl -n sar get rayjob sar-train -o yaml | tail -40
-          kubectl -n sar logs -l job-name=sar-train --tail=100 || true
+          report
           exit 1
