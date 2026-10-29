@@ -54,11 +54,27 @@ jobs:
             exit 1
           fi
       - name: Tests (unit, simulator, interfaces, API, isolation)
-        run: pytest -q -m "not slow and not e2e"
+        run: |
+          set -o pipefail
+          if ! pytest -q -m "not slow and not e2e" 2>&1 | tee out.txt; then
+            echo "::error title=tests::$(grep -v '^$' out.txt | tail -c 9000 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          fi
       - name: RLlib training smoke test
-        run: pytest -q -m slow
+        run: |
+          set -o pipefail
+          if ! pytest -q -m slow -x 2>&1 | tee out.txt; then
+            echo "::error title=rllib smoke::$(grep -v '^$' out.txt | tail -c 9000 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          fi
       - name: Browser end to end (Playwright)
-        run: python -m playwright install --with-deps chromium && pytest -q -m e2e
+        run: |
+          python -m playwright install --with-deps chromium
+          set -o pipefail
+          if ! pytest -q -m e2e 2>&1 | tee out.txt; then
+            echo "::error title=e2e::$(grep -v '^$' out.txt | tail -c 9000 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          fi
       - name: The committed evaluation reproduces
         run: |
           python -m sar.cli evaluate --set scenarios/dev --name dev
