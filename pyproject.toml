@@ -19,10 +19,10 @@ dependencies = [
 # runtime of the API and planners: ONNX policy, no Ray or torch needed
 serve = ["fastapi>=0.115", "uvicorn[standard]>=0.34", "onnxruntime>=1.22", "sqlalchemy>=2.0", "websockets>=15", "opencv-python-headless>=4.10"]
 # training and evaluation
-train = ["ray[rllib]==2.59.0", "torch>=2.7", "gymnasium>=1.0", "pettingzoo>=1.25", "mlflow-skinny>=3.0", "onnx>=1.18", "onnxscript>=0.3", "onnxruntime>=1.22", "opencv-python-headless>=4.10"]
+train = ["ray[default,rllib]==2.59.0", "torch>=2.7", "gymnasium>=1.0", "pettingzoo>=1.25", "mlflow-skinny>=3.0", "onnx>=1.18", "onnxscript>=0.3", "onnxruntime>=1.22", "opencv-python-headless>=4.10"]
 # Open-DIS is a test oracle only; it pins numpy<2, so it is installed with --no-deps (see CI)
 interop = ["pymavlink>=2.4.40"]
-dev = ["pytest>=8.3", "pytest-asyncio>=1.0", "httpx>=0.28", "ruff>=0.12", "mypy>=1.16", "types-PyYAML", "playwright==1.56.0"]
+dev = ["pytest>=8.3", "pytest-asyncio>=1.0", "httpx>=0.28", "ruff>=0.12", "mypy>=1.16", "types-PyYAML", "playwright==1.56.0", "nanobind>=2.9"]
 
 [project.scripts]
 sar = "sar.cli:main"

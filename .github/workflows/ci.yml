@@ -45,7 +45,10 @@ jobs:
       - run: mypy
       - name: Type stubs of the C++ module are current
         run: |
-          python -m nanobind.stubgen -m sar._sarsim -r -O src/sar
+          if ! python -m nanobind.stubgen -m sar._sarsim -r -O src/sar 2> stubgen.err; then
+            echo "::error title=stubgen::$(tail -c 4000 stubgen.err | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          fi
           if ! git diff --quiet src/sar/_sarsim; then
             echo "::error title=stubs::$(git diff src/sar/_sarsim | head -c 20000 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
             exit 1
